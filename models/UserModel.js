@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     },
 });
 
-
+change_idToid(UserSchema);
 
 //create user model from user schema
 const UserModel = Model('User', UserSchema);
