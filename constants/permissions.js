@@ -4,7 +4,6 @@ export const allPermissions = [
     "Manage Users",
     "Setting",
     "View Info",
-    "View Items",
     "View Orders",
     "View Users",
 ]

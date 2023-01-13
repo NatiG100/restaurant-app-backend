@@ -1,10 +1,12 @@
-const {Schema, Model} = require('mongoose');
+const {Schema, model} = require('mongoose');
+const { change_idToid } = require('../utils/utils');
 
 // user schema
 const UserSchema = new Schema({
     fullName:{
         type:String,
         required: true,
+        trim:true,
     },
     previlages:{
         type:[String],
@@ -16,7 +18,12 @@ const UserSchema = new Schema({
     },
     email:{
         type:String,
-        required:true
+        required:true,
+        trim:true,
+    },
+    hashedPassword:{
+        type:"string",
+        required:true,
     },
     img:{
         type:String,
@@ -27,6 +34,6 @@ const UserSchema = new Schema({
 change_idToid(UserSchema);
 
 //create user model from user schema
-const UserModel = Model('User', UserSchema);
+const UserModel = model('User', UserSchema);
 
 module.exports = UserModel;

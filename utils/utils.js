@@ -9,3 +9,5 @@ const change_idToid = (Schema)=>{
         return obj;
     });
 }
+
+module.exports.change_idToid = change_idToid;

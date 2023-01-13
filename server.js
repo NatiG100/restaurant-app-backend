@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 main().then(()=>{
     app.listen(port,()=>{
-        console.log(`Example app listening on port ${port}`);
+        console.log(`Restaurant menu app listening on port ${port}`);
     })
 }).catch(err=>{
     console.log("Error while connecting to the database");
