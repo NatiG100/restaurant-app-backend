@@ -112,7 +112,25 @@ router.patch('/:userId/change-status',async(req,res)=>{
 })
 
 router.patch('/:userId/update', async (req,res)=>{
-    
+    const{fullName,email,previlages} = req.body;
+    try{
+        const result = await User.updateOne(
+            {id:req.params.userId},
+            {fullName,email,previlages}
+        );
+        if(result.matchedCount===0){
+            res.status(400).send({
+                message:"No user found with the provided id"
+            }); 
+        }
+        res.status(200).json({
+            message:"User updated successfully"
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to update user"
+        });
+    }
 })
 
 module.exports = router;
