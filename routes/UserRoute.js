@@ -2,7 +2,7 @@ const express = require('express');
 const User = require('../models/UserModel');
 const router = express.Router();
 
-//route for registering user
+//register user route
 router.post('/register',async (req,res)=>{
     const {fullName,email,previlages,password} = req.body;
 
@@ -37,16 +37,28 @@ router.post('/register',async (req,res)=>{
             }
         });
     }catch(error){
-        return res.status(500).send({
+        res.status(500).send({
             message:"Failed to add user"
         });
     }
 });
 
 
-router.get('/',(req,res)=>{
-    res.send('all users')
-})
+//fetch all users
+router.get('/', async (req,res)=>{
+    try{
+        let allUsers = await User.find({});
+        res.status(200).json({
+            data:allUsers
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch users"
+        });
+    }
+});
+
+
 router.get('/:userId',(req,res)=>{
     res.send('get single user')
 })
