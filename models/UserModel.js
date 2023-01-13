@@ -61,6 +61,6 @@ UserSchema.methods.validPassword = function(password){
 change_idToid(UserSchema);
 
 //create user model from user schema
-const UserModel = model('User', UserSchema);
+const User = model('User', UserSchema);
 
-module.exports = UserModel;
+module.exports = User;

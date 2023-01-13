@@ -1,35 +1,46 @@
 const express = require('express');
-const UserModel = require('../models/UserModel');
+const User = require('../models/UserModel');
 const router = express.Router();
 
 //route for registering user
-router.post('/register',(req,res)=>{
+router.post('/register',async (req,res)=>{
     const {fullName,email,previlages,password} = req.body;
 
-    // create new user instance
-    const newUser = new UserModel({
-        fullName,
-        email,
-        previlages,
-        hashedPassword:password
-    });
+    try{
 
-    //save instance
-    newUser.save(function(error){
-        if(error){
-            return res.status(400).send({
-                message:"Failed to add user"
+        // reject duplicate email
+        const doc = await User.exists({email});
+        if(doc){
+            res.status(400).send({
+                message:"User with the same email already exists"
             });
+            return;
         }
-        else{
-            return res.status(200).json({
-                message:'Successfull',
-                data:{
-                    user:newUser
-                }
-            });
-        }
-    });
+
+        // create new user instance
+        const newUser = new User({
+            fullName,
+            email,
+            previlages,
+        });
+        newUser.setPassword(password);
+
+        // save the user to the database
+        await newUser.save();
+        res.status(200).json({
+            message:'User Successfully registered',
+            data:{
+                fullName,
+                email,
+                previlages,
+                id:newUser._id
+            }
+        });
+    }catch(error){
+        return res.status(500).send({
+            message:"Failed to add user"
+        });
+    }
 });
 
 
