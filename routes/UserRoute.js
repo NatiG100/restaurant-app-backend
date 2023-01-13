@@ -4,9 +4,9 @@ const router = express.Router();
 
 //register user route
 router.post('/register',async (req,res)=>{
-    const {fullName,email,previlages,password} = req.body;
-
     try{
+        const {fullName,email,previlages} = req.body;
+        const password = "1234abcd";
 
         // reject duplicate email
         const doc = await User.exists({email});
@@ -78,17 +78,41 @@ router.get('/:userId',async (req,res)=>{
         }
     }catch(error){
         res.status(500).send({
-            message:"Failed to fetch users"
+            message:"Failed to fetch user"
         });
     }
 })
 
-router.patch('/change-status/:userId',(req,res)=>{
-    res.send('change status')
+router.patch('/:userId/change-status',async(req,res)=>{
+    const {status} = req.body;
+    if(status!=='Active' && status!=='Suspended'){
+        res.status(400).json({
+            message:"Status must be either Active or Suspended"
+        }); 
+        return;
+    }
+    try{
+        const result = await User.updateOne(
+            {id:req.params.userId},
+            {status:req.body.status}
+        );
+        if(result.matchedCount===0){
+            res.status(400).send({
+                message:"No user found with the provided id"
+            }); 
+        }
+        res.status(200).json({
+            message:"Status changed succeessfully"
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to change user status"
+        });
+    }
 })
 
-router.patch('/update/:userId',(req,res)=>{
-    res.send('Update user')
+router.patch('/:userId/update', async (req,res)=>{
+    
 })
 
 module.exports = router;
