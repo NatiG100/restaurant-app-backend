@@ -1,5 +1,6 @@
 const {Schema, model} = require('mongoose');
 const { change_idToid } = require('../utils/utils');
+const crypto = require('crypto');
 
 // user schema
 const UserSchema = new Schema({
@@ -21,15 +22,41 @@ const UserSchema = new Schema({
         required:true,
         trim:true,
     },
-    hashedPassword:{
-        type:"string",
-        required:true,
-    },
+    hash:String,
+    salt:String,
     img:{
         type:String,
         default:"/default-avatar.jpeg"
     },
 });
+
+//set hash and salt for a user
+UserSchema.methods.setPassword = function(password){
+    // create unique salt for a user
+    this.salt = crypto.randomBytes(16).toString('hex');
+
+    //hashing user's salt and password with 1000 iterations
+    this.hash = crypto.pbkdf2Sync(
+        password,
+        this.salt,
+        1000,
+        64,
+        `sha512`
+    ).toString(`hex`);
+};
+
+// Method to check the entered password
+UserSchema.methods.validPassword = function(password){
+    var hash = crypto.pbkdf2Sync(
+        password,
+        this.salt,
+        1000,
+        64,
+        `sha512`
+    );
+
+    return this.hash === hash;
+}
 
 change_idToid(UserSchema);
 

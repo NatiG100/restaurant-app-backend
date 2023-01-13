@@ -17,14 +17,17 @@ router.post('/register',(req,res)=>{
     //save instance
     newUser.save(function(error){
         if(error){
-
+            return res.status(400).send({
+                message:"Failed to add user"
+            });
         }
-    });
-    
-    res.json({
-        message:'Successfull',
-        data:{
-            user:newUser
+        else{
+            return res.status(200).json({
+                message:'Successfull',
+                data:{
+                    user:newUser
+                }
+            });
         }
     });
 });
