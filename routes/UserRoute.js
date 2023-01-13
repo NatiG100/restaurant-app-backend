@@ -28,7 +28,7 @@ router.post('/register',async (req,res)=>{
         // save the user to the database
         await newUser.save();
         res.status(200).json({
-            message:'User Successfully registered',
+            message:'A user Successfully registered',
             data:{
                 fullName,
                 email,
@@ -59,8 +59,28 @@ router.get('/', async (req,res)=>{
 });
 
 
-router.get('/:userId',(req,res)=>{
-    res.send('get single user')
+router.get('/:userId',async (req,res)=>{
+    try{
+        const user = await User.findById(req.params.userId).exec();
+        
+        // if user is not found
+        if(!user){
+            res.status(400).send({
+                message:"No user found with the provided id"
+            }); 
+        }
+        
+        //if user is found
+        else{
+            res.status(200).json({
+                data:user
+            })
+        }
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch users"
+        });
+    }
 })
 
 router.patch('/change-status/:userId',(req,res)=>{
