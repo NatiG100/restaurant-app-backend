@@ -1,0 +1,141 @@
+const User = require('../models/UserModel');
+
+const DeleteAll = async(req,res)=>{
+    try{
+        await User.deleteMany({});
+        res.json({message:"Successfull"});
+    }catch(error){
+        res.json({message:"Failed to delete"});
+    }
+}
+
+const RegisterUser = async (req,res)=>{
+    try{
+        const {fullName,email,previlages} = req.body;
+        const password = "1234abcd";
+
+        // reject duplicate email
+        const doc = await User.exists({email});
+        if(doc){
+            res.status(400).send({
+                message:"User with the same email already exists"
+            });
+            return;
+        }
+
+        // create new user instance
+        const newUser = new User({
+            fullName,
+            email,
+            previlages,
+        });
+        newUser.setPassword(password);
+
+        // save the user to the database
+        await newUser.save();
+        res.status(200).json({
+            message:'A user Successfully registered',
+            data:newUser.toClient()
+        });
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to add user"
+        });
+    }
+}
+
+const FetchAllUsers = async (req,res)=>{
+    try{
+        let allUsers = await User.find({});
+        res.status(200).json({
+            data:allUsers.map((user)=>(user.toClient()))
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch users"
+        });
+    }
+}
+
+const FetchUser = async (req,res)=>{
+    try{
+        const user = await User.findById(req.params.userId).exec();
+        
+        // if user is not found
+        if(!user){
+            res.status(400).send({
+                message:"No user found with the provided id"
+            }); 
+        }
+        
+        //if user is found
+        else{
+            res.status(200).json({
+                data:user.toClient()
+            })
+        }
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch user"
+        });
+    }
+}
+
+const ChangeUserStatus = async(req,res)=>{
+    const {status} = req.body;
+    if(status!=='Active' && status!=='Suspended'){
+        res.status(400).json({
+            message:"Status must be either Active or Suspended"
+        }); 
+        return;
+    }
+    try{
+        const result = await User.updateOne(
+            {id:req.params.userId},
+            {status:req.body.status}
+        );
+        if(result.matchedCount===0){
+            res.status(400).send({
+                message:"No user found with the provided id"
+            }); 
+        }
+        res.status(200).json({
+            message:"Status changed succeessfully"
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to change user status"
+        });
+    }
+}
+
+const UpdateUser = async (req,res)=>{
+    const{fullName,email,previlages} = req.body;
+    try{
+        const result = await User.updateOne(
+            {id:req.params.userId},
+            {fullName,email,previlages}
+        );
+        if(result.matchedCount===0){
+            res.status(400).send({
+                message:"No user found with the provided id"
+            }); 
+        }
+        res.status(200).json({
+            message:"User updated successfully"
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to update user"
+        });
+    }
+}
+
+module.exports = {
+    RegisterUser,
+    FetchAllUsers,
+    FetchUser,
+    ChangeUserStatus,
+    UpdateUser,
+    DeleteAll,
+}
