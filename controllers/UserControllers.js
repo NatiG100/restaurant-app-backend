@@ -1,5 +1,6 @@
 const User = require('../models/UserModel');
 
+
 const DeleteAll = async(req,res)=>{
     try{
         await User.deleteMany({});
@@ -9,8 +10,9 @@ const DeleteAll = async(req,res)=>{
     }
 }
 
-const RegisterUser = async (req,res)=>{
+const RegisterUser = async (req,res,next)=>{
     try{
+        let img = req.uploadedFileName;
         const {fullName,email,previlages} = req.body;
         const password = "1234abcd";
 
@@ -29,6 +31,11 @@ const RegisterUser = async (req,res)=>{
             email,
             previlages,
         });
+
+        //add the image if an image exists
+        if(img){
+            newUser.img = img;
+        }
         newUser.setPassword(password);
 
         // save the user to the database
@@ -37,7 +44,9 @@ const RegisterUser = async (req,res)=>{
             message:'A user Successfully registered',
             data:newUser.toClient()
         });
+        next();
     }catch(error){
+        console.log(error);
         res.status(500).send({
             message:"Failed to add user"
         });
