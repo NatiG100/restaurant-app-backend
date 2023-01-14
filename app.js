@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
 app.use('/users',router)
 app.get('/',(req,res)=>{
