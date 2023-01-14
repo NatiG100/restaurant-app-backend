@@ -58,7 +58,17 @@ UserSchema.methods.validPassword = function(password){
     return this.hash === hash;
 }
 
-change_idToid(UserSchema);
+UserSchema.method('toClient', function() {
+    var obj = this.toObject();
+
+    //Rename fields
+    obj.id = obj._id;
+    delete obj._id;
+    delete obj.hash;
+    delete obj.salt;
+
+    return obj;
+});
 
 //create user model from user schema
 const User = model('User', UserSchema);
