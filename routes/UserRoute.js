@@ -1,18 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const uuid= require('uuid');
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination:path.join(path.dirname(require.main.filename),'/public/img/user'),
-    filename: function (req,file,cb){
-        req.uploadedFileName = uuid.v4()+path.extname(file.originalname);
-        cb(null,req.uploadedFileName);
-        req.uploadedFileName = "/img/user/"+req.uploadedFileName;
-    }
-});
-
-var upload = multer({storage:storage});
 
 const { 
     RegisterUser, 
@@ -22,12 +9,13 @@ const {
     UpdateUser, 
     DeleteAll 
 } = require('../controllers/UserControllers');
+const fileUpload = require('../utils/fileUpload');
 
 //delete route for testing purpose
 router.delete('/delete-all/test',DeleteAll);
 
 //register user route
-router.post('/register',upload.single('img'),RegisterUser);
+router.post('/register',fileUpload('img/user/').single('img'),RegisterUser);
 
 //fetch all users
 router.get('/', FetchAllUsers);

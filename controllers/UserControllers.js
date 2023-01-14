@@ -10,7 +10,7 @@ const DeleteAll = async(req,res)=>{
     }
 }
 
-const RegisterUser = async (req,res,next)=>{
+const RegisterUser = async (req,res)=>{
     try{
         let img = req.uploadedFileName;
         const {fullName,email,previlages} = req.body;
@@ -44,7 +44,6 @@ const RegisterUser = async (req,res,next)=>{
             message:'A user Successfully registered',
             data:newUser.toClient()
         });
-        next();
     }catch(error){
         console.log(error);
         res.status(500).send({
