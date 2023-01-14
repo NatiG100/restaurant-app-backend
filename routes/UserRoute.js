@@ -27,6 +27,6 @@ router.get('/:userId',FetchUser)
 router.patch('/:userId/change-status',ChangeUserStatus)
 
 //update user information
-router.patch('/:userId/update', UpdateUser)
+router.patch('/:userId/update',fileUpload('img/user/').single('img'), UpdateUser)
 
 module.exports = router;

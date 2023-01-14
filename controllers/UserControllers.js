@@ -119,10 +119,11 @@ const ChangeUserStatus = async(req,res)=>{
 
 const UpdateUser = async (req,res)=>{
     const{fullName,email,previlages} = req.body;
+    let img = req.uploadedFileName;
     try{
         const result = await User.updateOne(
             {id:req.params.userId},
-            {fullName,email,previlages}
+            {fullName,email,previlages,img}
         );
         if(result.matchedCount===0){
             res.status(400).send({

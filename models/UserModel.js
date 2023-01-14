@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     salt:String,
     img:{
         type:String,
-        default:"img/user/default-avatar.jpeg"
+        default:"/img/user/default-avatar.jpeg"
     },
 });
 
