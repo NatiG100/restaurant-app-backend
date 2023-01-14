@@ -121,9 +121,25 @@ const UpdateUser = async (req,res)=>{
     const{fullName,email,previlages} = req.body;
     let img = req.uploadedFileName;
     try{
+        if(email){
+            // reject duplicate email
+            const doc = await User.exists({email});
+            if(doc){
+                res.status(400).send({
+                    message:"User with the same email already exists"
+                });
+                return;
+            }
+        }
+        let updatedUser = {};
+        if(email) {updatedUser.email = email}
+        if(fullName) {updatedUser.fullName = fullName}
+        if(previlages) {updatedUser.previlages = previlages}
+        if(img) {updatedUser.img = img}
+        console.log(updatedUser);
         const result = await User.updateOne(
             {id:req.params.userId},
-            {fullName,email,previlages,img}
+            updatedUser,
         );
         if(result.matchedCount===0){
             res.status(400).send({
