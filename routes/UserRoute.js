@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const UserRoute = express.Router();
 
 const { 
     RegisterUser, 
@@ -12,21 +12,21 @@ const {
 const fileUpload = require('../utils/fileUpload');
 
 //delete route for testing purpose
-router.delete('/delete-all/test',DeleteAll);
+UserRoute.delete('/delete-all/test',DeleteAll);
 
 //register user route
-router.post('/register',fileUpload('img/user/').single('img'),RegisterUser);
+UserRoute.post('/register',fileUpload('img/user/').single('img'),RegisterUser);
 
 //fetch all users
-router.get('/', FetchAllUsers);
+UserRoute.get('/', FetchAllUsers);
 
 //fetch a user
-router.get('/:userId',FetchUser)
+UserRoute.get('/:userId',FetchUser)
 
 //change status of a user
-router.patch('/:userId/change-status',ChangeUserStatus)
+UserRoute.patch('/:userId/change-status',ChangeUserStatus)
 
 //update user information
-router.patch('/:userId/update',fileUpload('img/user/').single('img'), UpdateUser)
+UserRoute.patch('/:userId/update',fileUpload('img/user/').single('img'), UpdateUser)
 
-module.exports = router;
+module.exports = UserRoute;
