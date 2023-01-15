@@ -53,10 +53,6 @@ UserSchema.methods.validPassword = function(password){
         64,
         `sha512`
     ).toString(`hex`);
-
-    console.log(hash);
-    console.log(this.hash);
-
     return this.hash === hash;
 }
 

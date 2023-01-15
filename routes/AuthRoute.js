@@ -2,6 +2,26 @@ const express = require('express');
 const User = require('../models/UserModel');
 const AuthRouter = express.Router();
 
+AuthRouter.post('/logout',async(req,res)=>{
+    try{
+        //if a user is not logged in return error
+        if(!req.session.user){
+            res.status(400).send({
+                message:"You haven't logged in"
+            });
+        }else{
+            req.session.destroy();
+            res.status(200).json({
+                message:'Successfull',
+            });
+        }
+    }catch{
+        res.status(500).send({
+            message:"Failed to login"
+        }); 
+    }
+})
+
 AuthRouter.post('/login',async(req,res)=>{
     const {email,password} = req.body;
     try{
