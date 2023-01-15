@@ -125,6 +125,7 @@ const UpdateUser = async (req,res)=>{
             // reject duplicate email
             const doc = await User.exists({email});
             console.log(req.session?.user?.email);
+            // if a user exists and if it is not the current user
             if(doc && email!==req.session?.user?.email){
                 res.status(400).send({
                     message:"User with the same email already exists"

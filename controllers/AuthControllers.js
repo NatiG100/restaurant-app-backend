@@ -29,7 +29,7 @@ const Login = async(req,res)=>{
 
         //if the password is valid
         if(user.validPassword(password)){
-            req.session.user = user;
+            req.session.user = user.toClient();
             res.status(200).json({
                 message:'Successfull',
                 data:user.toClient()
@@ -68,7 +68,28 @@ const Logout = async(req,res)=>{
     }
 }
 
+const WhoAmI = async(req,res)=>{
+    try{
+        if(!req.session?.user){
+            res.status(400).send({
+                message:"You haven't logged in"
+            });
+        }else{
+            res.status(200).json({
+                message:'Successfull',
+                data:req.session.user,
+            });
+        }
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            message:"Failed to tell users identiy"
+        });
+    }
+}
+
 module.exports = {
     Login,
     Logout,
+    WhoAmI,
 }
