@@ -52,7 +52,6 @@ const RegisterUser = async (req,res)=>{
 }
 
 const FetchAllUsers = async (req,res)=>{
-    console.log(req.session.user);
     try{
         let allUsers = await User.find({});
         res.status(200).json({

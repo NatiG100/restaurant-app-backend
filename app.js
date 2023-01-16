@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const AuthRouter = require('./routes/AuthRoute');
+const cors = require('cors');
 
 var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION+"/restaurant-menu",
@@ -17,6 +18,11 @@ var store = new MongoDBStore({
 store.on('error',function(error){
     console.log(error);
 });
+
+app.use(cors({
+    credentials:true,
+    origin:'http://localhost:3000'
+}));
 
 app.use(session({
     secret: 'This is a secret',
@@ -32,8 +38,8 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.use('/users',UserRouter);
-app.use('/auth',AuthRouter);
+app.use('/api/users',UserRouter);
+app.use('/api/auth',AuthRouter);
 app.get('/',(req,res)=>{
     res.send("restaurant app api v1")
 })
