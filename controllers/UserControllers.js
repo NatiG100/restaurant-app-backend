@@ -139,7 +139,7 @@ const UpdateUser = async (req,res)=>{
         if(img) {updatedUser.img = img}
         console.log(updatedUser);
         const result = await User.updateOne(
-            {id:req.params.userId},
+            {_id:req.params.userId},
             updatedUser,
         );
         if(result.matchedCount===0){
