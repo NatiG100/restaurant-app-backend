@@ -98,7 +98,7 @@ const ChangeUserStatus = async(req,res)=>{
     }
     try{
         const result = await User.updateOne(
-            {id:req.params.userId},
+            {_id:req.params.userId},
             {status:req.body.status}
         );
         if(result.matchedCount===0){
