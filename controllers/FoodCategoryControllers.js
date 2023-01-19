@@ -72,9 +72,39 @@ const FetchFoodCategory = async(req,res)=>{
         });
     }
 }
+
+const ChangeFoodCategoryStatus = async(req,res)=>{
+    const {status} = req.body;
+    if(status!=='Active' && status!=='Suspended'){
+        res.status(400).json({
+            message:"Status must be either Active or Suspended"
+        }); 
+        return;
+    }
+    try{
+        const result = await FoodCategory.updateOne(
+            {_id:req.params.foodCategoryId},
+            {status:req.body.status}
+        );
+        if(result.matchedCount===0){
+            res.status(400).send({
+                message:"No food category found with the provided id"
+            });
+            return;
+        }
+        res.status(200).json({
+            message:"Status changed succeessfully"
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to change food category status"
+        });
+    }
+}
 module.exports = {
     AddFoodCategory,
     FetchAllFoodCategories,
     DeleteAll,
     FetchFoodCategory,
+    ChangeFoodCategoryStatus,
 }

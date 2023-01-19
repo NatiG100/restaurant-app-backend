@@ -105,6 +105,7 @@ const ChangeUserStatus = async(req,res)=>{
             res.status(400).send({
                 message:"No user found with the provided id"
             }); 
+            return;
         }
         res.status(200).json({
             message:"Status changed succeessfully"
