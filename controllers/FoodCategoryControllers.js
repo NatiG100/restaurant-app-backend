@@ -101,10 +101,37 @@ const ChangeFoodCategoryStatus = async(req,res)=>{
         });
     }
 }
+
+const UpdateFoodCategory = async(req,res)=>{
+    const img = req?.uploadedFileName;
+    const {name,description} = req.body;
+    const updated = new Date(Date.now());
+    try{
+        const updatedFoodCategory = {
+            name,
+            description,
+            updated,
+        }
+        if(img){
+            updatedFoodCategory.img = img;
+        }
+
+        await FoodCategory.updateOne({_id:req.params.foodCategoryId},updatedFoodCategory);
+        res.status(200).json({
+            message:"Successfully updated",
+        })
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            message:"Failed to update food category"
+        });
+    }
+}
 module.exports = {
     AddFoodCategory,
     FetchAllFoodCategories,
     DeleteAll,
     FetchFoodCategory,
     ChangeFoodCategoryStatus,
+    UpdateFoodCategory,
 }

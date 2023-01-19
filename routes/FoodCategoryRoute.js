@@ -1,5 +1,5 @@
 const express = require('express');
-const { AddFoodCategory, DeleteAll, FetchAllFoodCategories, FetchFoodCategory, ChangeFoodCategoryStatus } = require('../controllers/FoodCategoryControllers');
+const { AddFoodCategory, DeleteAll, FetchAllFoodCategories, FetchFoodCategory, ChangeFoodCategoryStatus, UpdateFoodCategory } = require('../controllers/FoodCategoryControllers');
 const fileUpload = require('../utils/fileUpload');
 const FoodCategoryRoute = express.Router();
 
@@ -13,7 +13,7 @@ FoodCategoryRoute.get('/',FetchAllFoodCategories);
 FoodCategoryRoute.get('/:foodCategoryId',FetchFoodCategory);
 
 //update food category
-FoodCategoryRoute.patch('/:id/update',()=>{});
+FoodCategoryRoute.patch('/:foodCategoryId/update',fileUpload('img/foodCategory/').single('img'),UpdateFoodCategory);
 
 //update status
 FoodCategoryRoute.patch('/:foodCategoryId/change-status',ChangeFoodCategoryStatus)
