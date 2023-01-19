@@ -10,6 +10,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const AuthRouter = require('./routes/AuthRoute');
 const cors = require('cors');
+const FoodCategoryRoute = require('./routes/FoodCategoryRoute');
 
 var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION+"/restaurant-menu",
@@ -40,6 +41,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.use('/api/users',UserRouter);
+app.use('/api/food-categories',FoodCategoryRoute);
 app.use('/api/auth',AuthRouter);
 app.get('/',(req,res)=>{
     res.send("restaurant app api v1")

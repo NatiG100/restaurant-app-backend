@@ -81,7 +81,6 @@ const WhoAmI = async(req,res)=>{
             });
         }
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to tell users identiy"
         });
