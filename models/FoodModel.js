@@ -1,7 +1,7 @@
 const { model,Schema } = require("mongoose");
 
 const FoodSchema = new Schema({
-    category:{
+    categoryId:{
         required:true,
         type:Schema.Types.ObjectId,
         ref:'FoodCategory'
@@ -19,7 +19,7 @@ const FoodSchema = new Schema({
         default:"/img/food/default.jpeg",
         type:String,
     },
-    createtd:{
+    created:{
         required:true,
         type:Date,
     },
@@ -35,17 +35,13 @@ const FoodSchema = new Schema({
     },
     totalSales:{
         default:0,
-        type:Schema.Types.Decimal128
+        type:Schema.Types.Number
     }
 });
 
-FoodSchema.methods('toClient',function(){
+FoodSchema.method('toClient',function(){
     var obj = this.toObject();
-    obj.categoryId = obj.category._id;
-    delete obj.category;
-    var creatorName = obj.createdBy.fullName;
-    obj.createdBy = creatorName;
-
+    obj.createdBy = obj.createdBy.fullName;    
     return obj;
 })
 
