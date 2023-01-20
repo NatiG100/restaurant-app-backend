@@ -38,9 +38,25 @@ const AddFood = async(req,res)=>{
             message:"Failed to add food"
         });
     }
+};
+
+const FetchAllFoods = async(req,res)=>{
+    try{
+        let allFood = await Food.find({}).populate('createdBy');
+        res.status(200).json({
+            data:allFood.map((food)=>(food.toClient()))
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch foods"
+        });
+    }
 }
+
+
 
 module.exports = {
     AddFood,
-    DeleteAllFood
+    DeleteAllFood,
+    FetchAllFoods,
 }
