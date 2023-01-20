@@ -53,10 +53,33 @@ const FetchAllFoods = async(req,res)=>{
     }
 }
 
-
+const FetchFood = async(req,res)=>{
+    try{
+        const food = await Food.findById(req.params.foodId).populate('createdBy').exec();
+        
+        // if food is not found
+        if(!food){
+            res.status(400).send({
+                message:"No food found with the provided id"
+            }); 
+        }
+        
+        //if food is found
+        else{
+            res.status(200).json({
+                data:food.toClient()
+            });
+        }
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch food"
+        });
+    }
+}
 
 module.exports = {
     AddFood,
     DeleteAllFood,
     FetchAllFoods,
+    FetchFood,
 }

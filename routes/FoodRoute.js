@@ -1,7 +1,7 @@
 const express = require('express');
 const fileUpload = require('../utils/fileUpload');
 const FoodRoute = express.Router();
-const {AddFood, DeleteAllFood, FetchAllFoods} = require('../controllers/FoodControllers')
+const {AddFood, DeleteAllFood, FetchAllFoods, FetchFood} = require('../controllers/FoodControllers')
 
 //test
 FoodRoute.delete('/delete',DeleteAllFood);
@@ -9,8 +9,8 @@ FoodRoute.delete('/delete',DeleteAllFood);
 //fetch all food
 FoodRoute.get('/',FetchAllFoods);
 
-//fetch a single food category
-FoodRoute.get('/:foodId',()=>{});
+//fetch a single food
+FoodRoute.get('/:foodId',FetchFood);
 
 //update food
 FoodRoute.patch('/:foodId/update',fileUpload('img/foodCategory/').single('img'),()=>{});
