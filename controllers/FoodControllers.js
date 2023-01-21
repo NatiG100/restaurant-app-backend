@@ -41,8 +41,13 @@ const AddFood = async(req,res)=>{
 };
 
 const FetchAllFoods = async(req,res)=>{
+    const categoryId = req.query.categoryId;
+    const filter = {};
+    if(categoryId){
+        filter.categoryId = categoryId
+    }
     try{
-        let allFood = await Food.find({}).populate('createdBy');
+        let allFood = await Food.find(filter).populate('createdBy');
         res.status(200).json({
             data:allFood.map((food)=>(food.toClient()))
         })
