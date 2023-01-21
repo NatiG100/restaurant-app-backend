@@ -80,6 +80,35 @@ const FetchFood = async(req,res)=>{
             message:"Failed to fetch food"
         });
     }
+};
+
+const ChangeFoodStatus = async(req,res)=>{
+    const {status} = req.body;
+    if(status!=='Active' && status!=='Suspended'){
+        res.status(400).json({
+            message:"Status must be either Active or Suspended"
+        }); 
+        return;
+    }
+    try{
+        const result = await Food.updateOne(
+            {_id:req.params.foodId},
+            {status:req.body.status}
+        );
+        if(result.matchedCount===0){
+            res.status(400).send({
+                message:"No food found with the provided id"
+            });
+            return;
+        }
+        res.status(200).json({
+            message:"Status changed succeessfully"
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to change food status"
+        });
+    }
 }
 
 module.exports = {
@@ -87,4 +116,5 @@ module.exports = {
     DeleteAllFood,
     FetchAllFoods,
     FetchFood,
+    ChangeFoodStatus,
 }
