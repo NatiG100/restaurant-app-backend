@@ -41,7 +41,8 @@ const FoodSchema = new Schema({
 
 FoodSchema.method('toClient',function(){
     var obj = this.toObject();
-    obj.createdBy = obj.createdBy.fullName;    
+    obj.createdBy = obj.createdBy.fullName;
+    obj.imgs = [];  
     return obj;
 })
 

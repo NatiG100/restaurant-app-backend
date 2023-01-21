@@ -109,6 +109,33 @@ const ChangeFoodStatus = async(req,res)=>{
             message:"Failed to change food status"
         });
     }
+};
+
+const UpdateFood = async(req,res)=>{
+    const img = req?.uploadedFileName;
+    const {name,description,cost} = req.body;
+    const updated = new Date(Date.now());
+    try{
+        const updatedFood = {
+            name,
+            description,
+            updated,
+            cost,
+        }
+        if(img){
+            updatedFood.img = img;
+        }
+
+        await Food.updateOne({_id:req.params.foodId},updatedFood);
+        res.status(200).json({
+            message:"Successfully updated",
+        })
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            message:"Failed to update foo"
+        });
+    }
 }
 
 module.exports = {
@@ -117,4 +144,5 @@ module.exports = {
     FetchAllFoods,
     FetchFood,
     ChangeFoodStatus,
+    UpdateFood,
 }

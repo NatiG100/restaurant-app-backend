@@ -6,7 +6,8 @@ const {
     DeleteAllFood, 
     FetchAllFoods, 
     FetchFood, 
-    ChangeFoodStatus
+    ChangeFoodStatus,
+    UpdateFood
 } = require('../controllers/FoodControllers')
 
 //test
@@ -19,7 +20,7 @@ FoodRoute.get('/',FetchAllFoods);
 FoodRoute.get('/:foodId',FetchFood);
 
 //update food
-FoodRoute.patch('/:foodId/update',fileUpload('img/foodCategory/').single('img'),()=>{});
+FoodRoute.patch('/:foodId/update',fileUpload('img/food/').single('img'),UpdateFood);
 
 //update status
 FoodRoute.patch('/:foodId/change-status',ChangeFoodStatus)
