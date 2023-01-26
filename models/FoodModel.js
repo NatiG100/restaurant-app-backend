@@ -42,7 +42,9 @@ const FoodSchema = new Schema({
 FoodSchema.method('toClient',function(){
     var obj = this.toObject();
     obj.createdBy = obj.createdBy.fullName;
-    obj.imgs = [];  
+    obj.imgs = [];
+    obj.id = obj._id;
+    delete obj._id;
     return obj;
 })
 
