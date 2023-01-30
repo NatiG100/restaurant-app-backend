@@ -49,8 +49,33 @@ const FetchAllDrinkCategories = async(req,res)=>{
     }
 }
 
+const FetchDrinkCategory = async(req,res)=>{
+    try{
+        const drinkCategory = await DrinkCategory.findById(req.params.drinkCategoryId).exec();
+        
+        // if drink is not found
+        if(!drinkCategory){
+            res.status(400).send({
+                message:"No drink category found with the provided id"
+            }); 
+        }
+        
+        //if drink category is found
+        else{
+            res.status(200).json({
+                data:drinkCategory.toClient()
+            });
+        }
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch drink category"
+        });
+    }
+}
+
 module.exports = {
     DeleteAllDrinkCategory,
     AddDrinkCategory,
-    FetchAllDrinkCategories
+    FetchAllDrinkCategories,
+    FetchDrinkCategory
 }
