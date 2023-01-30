@@ -1,5 +1,5 @@
 const express = require('express');
-const { DeleteAllDrinkCategory, AddDrinkCategory, FetchAllDrinkCategories, FetchDrinkCategory } = require('../controllers/DrinkCategoryControllers');
+const { DeleteAllDrinkCategory, AddDrinkCategory, FetchAllDrinkCategories, FetchDrinkCategory, ChangeDrinkCategoryStatus } = require('../controllers/DrinkCategoryControllers');
 const fileUpload = require('../utils/fileUpload');
 const DrinkCategoryRoute = express.Router();
 
@@ -16,7 +16,7 @@ DrinkCategoryRoute.get('/:drinkCategoryId',FetchDrinkCategory);
 DrinkCategoryRoute.patch('/:drinkCategoryId/update',fileUpload('img/drinkCategory/').single('img'),()=>{});
 
 //update status
-DrinkCategoryRoute.patch('/:drinkCategoryId/change-status',()=>{})
+DrinkCategoryRoute.patch('/:drinkCategoryId/change-status',ChangeDrinkCategoryStatus)
 
 //route for adding category
 DrinkCategoryRoute.post('/',fileUpload('img/drinkCategory/').single('img'),AddDrinkCategory);
