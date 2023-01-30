@@ -102,6 +102,31 @@ const ChangeDrinkCategoryStatus = async(req,res)=>{
     }
 };
 
+const UpdateDrinkCategory = async(req,res)=>{
+    const img = req?.uploadedFileName;
+    const {name,description} = req.body;
+    const updated = new Date(Date.now());
+    try{
+        const updatedDrinkCategory = {
+            name,
+            description,
+            updated,
+        }
+        if(img){
+            updatedDrinkCategory.img = img;
+        }
+
+        await DrinkCategory.updateOne({_id:req.params.drinkCategoryId},updatedDrinkCategory);
+        res.status(200).json({
+            message:"Successfully updated",
+        })
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            message:"Failed to update drink category"
+        });
+    }
+}
 
 module.exports = {
     DeleteAllDrinkCategory,
@@ -109,4 +134,5 @@ module.exports = {
     FetchAllDrinkCategories,
     FetchDrinkCategory,
     ChangeDrinkCategoryStatus,
+    UpdateDrinkCategory,
 }
