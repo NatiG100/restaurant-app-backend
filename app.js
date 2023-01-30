@@ -44,6 +44,7 @@ app.use(express.static('public'));
 app.use('/api/users',UserRouter);
 app.use('/api/food-categories',FoodCategoryRoute);
 app.use('/api/foods',FoodRoute);
+app.use('/api/drink-categories',DrinkCategoryRoute);
 app.use('/api/auth',AuthRouter);
 app.get('/',(req,res)=>{
     res.send("restaurant app api v1")
