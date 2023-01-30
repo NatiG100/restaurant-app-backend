@@ -1,9 +1,10 @@
 const express = require('express');
+const { DeleteAllDrinkCategory, AddDrinkCategory } = require('../controllers/DrinkCategoryControllers');
 const fileUpload = require('../utils/fileUpload');
 const DrinkCategoryRoute = express.Router();
 
 //test
-DrinkCategoryRoute.delete('/delete',()=>{});
+DrinkCategoryRoute.delete('/delete',DeleteAllDrinkCategory);
 
 //fetch all drink categories
 DrinkCategoryRoute.get('/',()=>{});
@@ -18,6 +19,6 @@ DrinkCategoryRoute.patch('/:drinkCategoryId/update',fileUpload('img/drinkCategor
 DrinkCategoryRoute.patch('/:drinkCategoryId/change-status',()=>{})
 
 //route for adding category
-DrinkCategoryRoute.post('/',fileUpload('img/drinkCategory/').single('img'),()=>{});
+DrinkCategoryRoute.post('/',fileUpload('img/drinkCategory/').single('img'),AddDrinkCategory);
 
 module.exports = DrinkCategoryRoute;

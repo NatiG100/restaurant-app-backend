@@ -12,6 +12,7 @@ const AuthRouter = require('./routes/AuthRoute');
 const cors = require('cors');
 const FoodCategoryRoute = require('./routes/FoodCategoryRoute');
 const FoodRoute = require('./routes/FoodRoute');
+const DrinkCategoryRoute = require('./routes/DrinkCategoryRoute');
 
 var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION+"/restaurant-menu",
