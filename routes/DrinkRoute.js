@@ -1,5 +1,5 @@
 const express = require('express');
-const { DeleteAllDrink, AddDrink, FetchAllDrinks } = require('../controllers/DrinkControllers');
+const { DeleteAllDrink, AddDrink, FetchAllDrinks, FetchDrink } = require('../controllers/DrinkControllers');
 const fileUpload = require('../utils/fileUpload');
 const DrinkRoute = express.Router();
 
@@ -11,7 +11,7 @@ DrinkRoute.delete('/delete',DeleteAllDrink);
 DrinkRoute.get('/',FetchAllDrinks);
 
 //fetch a single drink
-DrinkRoute.get('/:drinkId',()=>{});
+DrinkRoute.get('/:drinkId',FetchDrink);
 
 //update drink
 DrinkRoute.patch('/:drinkId/update',fileUpload('img/drink/').single('img'),()=>{});

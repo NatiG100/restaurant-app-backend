@@ -55,10 +55,35 @@ const FetchAllDrinks = async(req,res)=>{
             message:"Failed to fetch drinks"
         });
     }
-}
+};
+
+const FetchDrink = async(req,res)=>{
+    try{
+        const drink = await Drink.findById(req.params.drinkId).populate('createdBy').exec();
+        
+        // if drink is not found
+        if(!drink){
+            res.status(400).send({
+                message:"No drink found with the provided id"
+            }); 
+        }
+        
+        //if drink was found
+        else{
+            res.status(200).json({
+                data:drink.toClient()
+            });
+        }
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch drink"
+        });
+    }
+};
 
 module.exports = {
     AddDrink,
     DeleteAllDrink,
     FetchAllDrinks,
+    FetchDrink,
 }
