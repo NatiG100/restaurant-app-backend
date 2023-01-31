@@ -39,7 +39,26 @@ const AddDrink = async(req,res)=>{
     }
 };
 
+const FetchAllDrinks = async(req,res)=>{
+    const categoryId = req.query.categoryId;
+    const filter = {};
+    if(categoryId){
+        filter.categoryId = categoryId
+    }
+    try{
+        let allDrink = await Drink.find(filter).populate('createdBy');
+        res.status(200).json({
+            data:allDrink.map((drink)=>(drink.toClient()))
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch drinks"
+        });
+    }
+}
+
 module.exports = {
     AddDrink,
-    DeleteAllDrink
+    DeleteAllDrink,
+    FetchAllDrinks,
 }
