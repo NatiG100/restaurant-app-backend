@@ -1,5 +1,5 @@
 const express = require('express');
-const { DeleteAllDrink, AddDrink, FetchAllDrinks, FetchDrink } = require('../controllers/DrinkControllers');
+const { DeleteAllDrink, AddDrink, FetchAllDrinks, FetchDrink, ChangeDrinkStatus } = require('../controllers/DrinkControllers');
 const fileUpload = require('../utils/fileUpload');
 const DrinkRoute = express.Router();
 
@@ -17,7 +17,7 @@ DrinkRoute.get('/:drinkId',FetchDrink);
 DrinkRoute.patch('/:drinkId/update',fileUpload('img/drink/').single('img'),()=>{});
 
 //update status
-DrinkRoute.patch('/:drinkId/change-status',()=>{})
+DrinkRoute.patch('/:drinkId/change-status',ChangeDrinkStatus)
 
 //route for adding drink
 DrinkRoute.post('/',fileUpload('img/drink/').single('img'),AddDrink);
