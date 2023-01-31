@@ -13,7 +13,6 @@ const AddFood = async(req,res)=>{
     const {name,description,cost} = req.body;
     const categoryId = req.query.categoryId;
     const created = new Date(Date.now());
-    console.log(req.session.user.id)
     try{
         const newFood = new Food({
             name,
