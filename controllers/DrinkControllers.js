@@ -110,10 +110,38 @@ const ChangeDrinkStatus = async(req,res)=>{
     }
 };
 
+const UpdateDrink = async(req,res)=>{
+    const img = req?.uploadedFileName;
+    const {name,description,cost} = req.body;
+    const updated = new Date(Date.now());
+    try{
+        const updatedDrink = {
+            name,
+            description,
+            updated,
+            cost,
+        }
+        if(img){
+            updatedDrink.img = img;
+        }
+
+        await Drink.updateOne({_id:req.params.drinkId},updatedDrink);
+        res.status(200).json({
+            message:"Successfully updated",
+        })
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            message:"Failed to update drink"
+        });
+    }
+}
+
 module.exports = {
     AddDrink,
     DeleteAllDrink,
     FetchAllDrinks,
     FetchDrink,
-    ChangeDrinkStatus
+    ChangeDrinkStatus,
+    UpdateDrink,
 }
