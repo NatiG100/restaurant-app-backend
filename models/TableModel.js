@@ -4,10 +4,11 @@ const TableSchema = new Schema({
     tableNumber:{
         type:String,
         required:true,
+        unique:true,
     },
     status:{
         type:String,
-        defautl:"Active"
+        default:"Active"
     }
 });
 

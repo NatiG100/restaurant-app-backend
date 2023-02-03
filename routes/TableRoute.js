@@ -1,11 +1,12 @@
 const express = require('express');
+const { DeleteAllTables, FetchAllTables, AddTable } = require('../controllers/TableControllers');
 const TableRoute = express.Router();
 
 //test
-TableRoute.delete('/delete',()=>{});
+TableRoute.delete('/delete',DeleteAllTables);
 
 //fetch all table
-TableRoute.get('/',()=>{});
+TableRoute.get('/',FetchAllTables);
 
 //fetch a single table
 TableRoute.get('/:tableId',()=>{});
@@ -17,6 +18,6 @@ TableRoute.patch('/:tableId/update',()=>{});
 TableRoute.patch('/:tableId/change-status',()=>{})
 
 //route for adding table
-TableRoute.post('/',()=>{});
+TableRoute.post('/',AddTable);
 
 module.exports = TableRoute;
