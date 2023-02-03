@@ -9,6 +9,24 @@ const DeleteAllTables = async(req,res)=>{
         res.json({message:"Failed to delete"});
     }
 }
+
+const DeleteTable = async(req,res)=>{
+    const id = req.params.tableId;
+    try{
+        if(!id){
+            res.status(400).json({
+                message:"You must provide a table ID"
+            })
+        }
+        await Table.findByIdAndDelete(id);
+        res.status(200).json({
+            message:"Table successfully deleted",
+            data:[]
+        })
+    }catch(error){
+        res.status(500).json({message:"Failed to delete table"})
+    }
+}
 const AddTable = async(req,res)=>{
     const {tableNumber} = req.body;
     try{
@@ -113,5 +131,6 @@ module.exports={
     FetchAllTables,
     FetchTable,
     UpdateTable,
-    ChangeTableStatus
+    ChangeTableStatus,
+    DeleteTable
 }

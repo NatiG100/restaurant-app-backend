@@ -1,5 +1,5 @@
 const express = require('express');
-const { DeleteAllTables, FetchAllTables, AddTable, FetchTable, UpdateTable, ChangeTableStatus } = require('../controllers/TableControllers');
+const { DeleteAllTables, FetchAllTables, AddTable, FetchTable, UpdateTable, ChangeTableStatus, DeleteTable } = require('../controllers/TableControllers');
 const TableRoute = express.Router();
 
 //test
@@ -10,6 +10,9 @@ TableRoute.get('/',FetchAllTables);
 
 //fetch a single table
 TableRoute.get('/:tableId',FetchTable);
+
+//delete table
+TableRoute.delete('/:tableId',DeleteTable);
 
 //update table
 TableRoute.patch('/:tableId/update',UpdateTable);
