@@ -38,7 +38,11 @@ const AddFoodCategory = async (req,res)=>{
 
 const FetchAllFoodCategories = async(req,res)=>{
     try{
-        let allFoodCategories = await FoodCategory.find({});
+        const filterObject={};
+        if(req.query.status){
+            filterObject.status = req.query.status
+        }
+        let allFoodCategories = await FoodCategory.find(filterObject);
         res.status(200).json({
             data:allFoodCategories.map((foodCategory)=>(foodCategory.toClient()))
         })
