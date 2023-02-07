@@ -37,8 +37,12 @@ const AddDrinkCategory = async (req,res)=>{
 };
 
 const FetchAllDrinkCategories = async(req,res)=>{
+    const filterObject={};
+    if(req.query.status){
+        filterObject.status = req.query.status
+    }
     try{
-        let allDrinkCategories = await DrinkCategory.find({});
+        let allDrinkCategories = await DrinkCategory.find(filterObject);
         res.status(200).json({
             data:allDrinkCategories.map((drinkCategory)=>(drinkCategory.toClient()))
         })

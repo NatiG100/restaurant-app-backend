@@ -45,6 +45,9 @@ const FetchAllDrinks = async(req,res)=>{
     if(categoryId){
         filter.categoryId = categoryId
     }
+    if(req.query.status){
+        filter.status = req.query.status
+    }
     try{
         let allDrink = await Drink.find(filter).populate('createdBy');
         res.status(200).json({
