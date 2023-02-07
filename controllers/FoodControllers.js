@@ -42,6 +42,9 @@ const AddFood = async(req,res)=>{
 const FetchAllFoods = async(req,res)=>{
     const categoryId = req.query.categoryId;
     const filter = {};
+    if(req.query.status){
+        filter.status = req.query.status
+    }
     if(categoryId){
         filter.categoryId = categoryId
     }
