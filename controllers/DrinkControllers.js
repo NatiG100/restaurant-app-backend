@@ -32,7 +32,6 @@ const AddDrink = async(req,res)=>{
             data: populatedDrink.toClient(),
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to add drink"
         });
@@ -133,7 +132,6 @@ const UpdateDrink = async(req,res)=>{
             message:"Successfully updated",
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to update drink"
         });

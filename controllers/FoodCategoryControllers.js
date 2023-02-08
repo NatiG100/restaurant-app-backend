@@ -29,7 +29,6 @@ const AddFoodCategory = async (req,res)=>{
             data:newFoodCategory.toClient(),
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to add food category"
         });
@@ -125,7 +124,6 @@ const UpdateFoodCategory = async(req,res)=>{
             message:"Successfully updated",
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to update food category"
         });

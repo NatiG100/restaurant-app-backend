@@ -138,7 +138,6 @@ const UpdateUser = async (req,res)=>{
         if(fullName) {updatedUser.fullName = fullName}
         if(previlages) {updatedUser.previlages = previlages}
         if(img) {updatedUser.img = img}
-        console.log(updatedUser);
         const result = await User.updateOne(
             {_id:req.params.userId},
             updatedUser,

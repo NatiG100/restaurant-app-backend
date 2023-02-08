@@ -32,7 +32,6 @@ const AddFood = async(req,res)=>{
             data: populatedFood.toClient(),
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to add food"
         });
@@ -133,7 +132,6 @@ const UpdateFood = async(req,res)=>{
             message:"Successfully updated",
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to update foo"
         });
