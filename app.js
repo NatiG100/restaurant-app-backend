@@ -23,10 +23,12 @@ var store = new MongoDBStore({
 store.on('error',function(error){
     console.log(error);
 });
-
+var whitelist = ['http://localhost:3000', 'http://172.20.44.116:3000']
 app.use(cors({
     credentials:true,
-    origin:'http://localhost:3000'
+    origin: function (origin, callback) {
+          callback(null, true)
+      },
 }));
 
 app.use(session({
