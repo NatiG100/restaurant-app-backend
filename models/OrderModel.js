@@ -32,28 +32,23 @@ const OrderSchema = new Schema({
         type:Number,
         required:true,
     },
-    table:{
+    tableNumber:{
         required:true,
         type:String,
-    },
-    foods:{
-        required:true,
-        type:[Schema.Types.ObjectId],
-        ref:'Food'
     },
     items:[Item]
 });
 
-OrderSchema.method('toClien',function(){
+OrderSchema.method('toClient',function(){
     var obj = this.toObject();
     obj.id = obj._id;
     let currentTime = Date.now(),
         final = new Date(obj.date);
-    obj.timeElapsed = Math.round((final.getTime()-currentTime.getTime())/1000);
+    obj.timeElapsed = Math.round((final.getTime()-currentTime)/1000);
     delete obj._id;
     return obj;
 })
 
 const Order = model('Order',OrderSchema);
 
-export default Order;
+module.exports = Order;

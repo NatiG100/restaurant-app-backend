@@ -54,7 +54,7 @@ app.use('/api/drink-categories',DrinkCategoryRoute);
 app.use('/api/drinks',DrinkRoute);
 app.use('/api/tables',TableRoute)
 app.use('/api/auth',AuthRouter);
-app.use('/orders',OrderRouter)
+app.use('/api/orders',OrderRouter)
 app.get('/',(req,res)=>{
     res.send("restaurant app api v1")
 })
