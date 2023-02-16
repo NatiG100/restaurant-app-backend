@@ -36,6 +36,10 @@ const OrderSchema = new Schema({
         required:true,
         type:String,
     },
+    status:{
+        type:String,
+        default:"Pending"
+    },
     items:[Item]
 });
 

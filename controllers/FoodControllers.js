@@ -103,7 +103,7 @@ const ChangeFoodStatus = async(req,res)=>{
             return;
         }
         res.status(200).json({
-            message:"Status changed succeessfully"
+            message:"Status changed successfully"
         })
     }catch(error){
         res.status(500).send({
