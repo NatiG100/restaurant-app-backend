@@ -20,13 +20,27 @@ const requestOrder = async(req,res)=>{
             data: newOrder.toClient(),
         })
     }catch(error){
-        console.log(error);
         res.status(500).send({
             message:"Failed to order"
         });
     }
 };
 
+const FetchAllOrders = async(req,res)=>{
+    try{
+        let allOrders = await Order.find();
+        res.status(200).json({
+            data:allOrders.map((order)=>(order.toClient()))
+        })
+    }catch(error){
+        res.status(500).send({
+            message:"Failed to fetch orders"
+        });
+    }
+}
+
+
 module.exports = {
     requestOrder,
+    FetchAllOrders
 }

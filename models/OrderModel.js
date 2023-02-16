@@ -43,8 +43,8 @@ OrderSchema.method('toClient',function(){
     var obj = this.toObject();
     obj.id = obj._id;
     let currentTime = Date.now(),
-        final = new Date(obj.date);
-    obj.timeElapsed = Math.round((final.getTime()-currentTime)/1000);
+        timeCreated = new Date(obj.date);
+    obj.timeElapsed = Math.round((currentTime-timeCreated.getTime())/1000);
     delete obj._id;
     return obj;
 })
