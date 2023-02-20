@@ -27,16 +27,14 @@ store.on('error',function(error){
 var whitelist = ['http://localhost:3000', 'http://172.20.44.116:3000']
 app.use(cors({
     credentials:true,
-    origin: function (origin, callback) {
-          callback(null, true)
-      },
+    origin: 'http://localhost:3000'
 }));
 
 app.use(session({
     secret: 'This is a secret',
     cookie: {
         sameSite:true,
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
     },
     store: store,
     resave: false,
