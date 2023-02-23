@@ -33,7 +33,9 @@ app.use(cors({
 app.use(session({
     secret: 'This is a secret',
     cookie: {
-        sameSite:true,
+        httpOnly:true,
+        secure: process.env.NODE_ENV==="production",
+        sameSite:false,
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
     },
     store: store,
