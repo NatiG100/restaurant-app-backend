@@ -16,6 +16,7 @@ const DrinkCategoryRoute = require('./routes/DrinkCategoryRoute');
 const DrinkRoute = require('./routes/DrinkRoute');
 const TableRoute = require('./routes/TableRoute');
 const OrderRouter = require('./routes/OrderRoute');
+const ApplicationSettingRouter = require('./routes/ApplicationSettingRoute');
 
 var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION+"/restaurant-menu",
@@ -54,7 +55,8 @@ app.use('/api/drink-categories',DrinkCategoryRoute);
 app.use('/api/drinks',DrinkRoute);
 app.use('/api/tables',TableRoute)
 app.use('/api/auth',AuthRouter);
-app.use('/api/orders',OrderRouter)
+app.use('/api/orders',OrderRouter);
+app.use('/api/setting',ApplicationSettingRouter);
 app.get('/',(req,res)=>{
     res.send("restaurant app api v1")
 })
