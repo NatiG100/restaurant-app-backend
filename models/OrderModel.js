@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const Item = new Schema({
+    itemId:{
+        type:String,
+        required:true,
+    },
     itemType:{
         type:String,
         required:true,
@@ -24,6 +28,7 @@ const Item = new Schema({
 })
 
 const OrderSchema = new Schema({
+    orderCanceledOrServedDate:Date,
     date:{
         type:Date,
         required:true,
@@ -48,6 +53,9 @@ OrderSchema.method('toClient',function(){
     obj.id = obj._id;
     let currentTime = Date.now(),
         timeCreated = new Date(obj.date);
+    if(obj.orderCanceledOrServedDate){
+        currentTime = new Date(obj.orderCanceledOrServedDate);
+    }
     obj.timeElapsed = Math.round((currentTime-timeCreated.getTime())/1000);
     delete obj._id;
     return obj;

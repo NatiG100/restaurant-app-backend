@@ -56,6 +56,7 @@ const ChangeOrderStatus = async(req,res)=>{
         }); 
         return;
     }
+    
     try{
         const order = await Order.findById(req.params.orderId);
         let oldSt = OrderStatuses.indexOf(order.status);
@@ -66,9 +67,14 @@ const ChangeOrderStatus = async(req,res)=>{
             });
             return;
         }
+        let changedFields = {status:req.body.status}
+        //add cancelled or served datae inorder to stop counting time elapsed for an order
+        if(status==="Cancelled"||status==="Served"){
+            changedFields.orderCanceledOrServedDate=new Date(Date.now());
+        }
         const result = await Order.updateOne(
             {_id:req.params.orderId},
-            {status:req.body.status}
+            changedFields
         );
         if(result.matchedCount===0){
             res.status(400).send({
