@@ -22,8 +22,7 @@ const updateApplicationSetting = async(req,res)=>{
         }else{
             const setting = await ApplicationSetting.findByIdAndUpdate(settings[0]._id,changedFields);
             res.status(200).json({
-                message:"Setting successfully created",
-                data:setting,
+                message:"Setting successfully updated",
             })
         }
     }catch(error){
