@@ -4,7 +4,7 @@ const updateApplicationSetting = async(req,res)=>{
     const {taxRate,frontendWebDomain} = req.body;
     let changedFields = {};
     if(taxRate) changedFields.taxRate = taxRate;
-    if(frontendWebDomain) changedFields.frontendWebDomain = taxRate;
+    if(frontendWebDomain) changedFields.frontendWebDomain = frontendWebDomain;
     try{
         let settings = await ApplicationSetting.find();
         if(settings.length==0){
