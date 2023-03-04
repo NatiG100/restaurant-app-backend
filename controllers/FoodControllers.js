@@ -32,6 +32,7 @@ const AddFood = async(req,res)=>{
             data: populatedFood.toClient(),
         })
     }catch(error){
+        console.log(error)
         res.status(500).send({
             message:"Failed to add food"
         });

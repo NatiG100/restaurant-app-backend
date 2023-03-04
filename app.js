@@ -21,27 +21,35 @@ const ApplicationSettingRouter = require('./routes/ApplicationSettingRoute');
 var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION+"/restaurant-menu",
     collection:'mySessions',
+    expires:1000 * 60 * 60 * 24 * 7,
 })
 store.on('error',function(error){
     console.log(error);
 });
-var whitelist = ['http://localhost:3000', 'http://172.20.44.116:3000']
+var whitelist = ['http://localhost:3000', 'http://192.168.1.11:3000']
 app.use(cors({
     credentials:true,
-    origin: 'http://localhost:3000'
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+          callback(null, true)
+        } else {
+          callback(new Error('Not allowed by CORS'))
+        }
+    }
 }));
 
 app.use(session({
+    name:"SESSION_DB",
     secret: 'This is a secret',
-    cookie: {
-        httpOnly:true,
-        secure: process.env.NODE_ENV==="production",
-        sameSite:false,
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-    },
     store: store,
-    resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        sameSite:false,
+        secure: process.env.NODE_ENV==="production",
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        httpOnly:true,
+    },
 }));
 
 

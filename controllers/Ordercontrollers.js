@@ -29,6 +29,7 @@ const requestOrder = async(req,res)=>{
             data: newOrder.toClient(),
         })
     }catch(error){
+        console.log(error);
         res.status(500).send({
             message:"Failed to order"
         });
