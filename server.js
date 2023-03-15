@@ -18,7 +18,7 @@ main().then(()=>{
 
 // function to connect to the db
 async function main(){
-    await mongoose.connect(`${MONGO_DB_CONNECTION}/restaurant-menu`)
+    await mongoose.connect(`${MONGO_DB_CONNECTION}`)
 }
 
 

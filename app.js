@@ -19,7 +19,7 @@ const OrderRouter = require('./routes/OrderRoute');
 const ApplicationSettingRouter = require('./routes/ApplicationSettingRoute');
 
 var store = new MongoDBStore({
-    uri:MONGO_DB_CONNECTION+"/restaurant-menu",
+    uri:MONGO_DB_CONNECTION,
     collection:'mySessions',
     expires:1000 * 60 * 60 * 24 * 7,
 })
