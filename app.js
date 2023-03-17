@@ -27,7 +27,12 @@ store.on('error',function(error){
     console.log(error);
 });
 app.use(express.static('public'));
-var whitelist = ['http://localhost:3000','http://192.168.1.11:3000','http://172.20.44.133:3000',]
+var whitelist = [
+    'http://localhost:3000',
+    'http://192.168.1.11:3000',
+    'http://172.20.44.133:3000',
+    'http://172.20.101.44:3000'
+]
 app.use(cors({
     credentials:true,
     origin: function (origin, callback) {
