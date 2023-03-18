@@ -8,7 +8,8 @@ const {
     FetchFood, 
     ChangeFoodStatus,
     UpdateFood
-} = require('../controllers/FoodControllers')
+} = require('../controllers/FoodControllers');
+const requirePermission = require('../utils/requirePermission');
 
 //test
 FoodRoute.delete('/delete',DeleteAllFood);
@@ -20,12 +21,26 @@ FoodRoute.get('/',FetchAllFoods);
 FoodRoute.get('/:foodId',FetchFood);
 
 //update food
-FoodRoute.patch('/:foodId/update',fileUpload('img/food/').single('img'),UpdateFood);
+FoodRoute.patch(
+    '/:foodId/update',
+    requirePermission("Manage Items"),
+    fileUpload('img/food/').single('img'),
+    UpdateFood
+);
 
 //update status
-FoodRoute.patch('/:foodId/change-status',ChangeFoodStatus)
+FoodRoute.patch(
+    '/:foodId/change-status',
+    requirePermission("Manage Items"),
+    ChangeFoodStatus
+);
 
 //route for adding food
-FoodRoute.post('/',fileUpload('img/food/').single('img'),AddFood);
+FoodRoute.post(
+    '/',
+    requirePermission("Manage Items"),
+    fileUpload('img/food/').single('img'),
+    AddFood
+);
 
 module.exports = FoodRoute;

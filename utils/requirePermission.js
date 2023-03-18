@@ -1,7 +1,7 @@
 function requirePermission(permission=""){
     return (req,res,next)=>{
-        if(permission===""){
-
+        if(permission==="" && req.session?.user){
+            next();
         }else if(!req.session?.user){
             res.status(403).json({message:"you are UNAUTHORIZED to perfor the requested task"})
         }else{
