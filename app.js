@@ -19,7 +19,7 @@ const OrderRouter = require('./routes/OrderRoute');
 const ApplicationSettingRouter = require('./routes/ApplicationSettingRoute');
 
 var store = new MongoDBStore({
-    uri:MONGO_DB_CONNECTION,
+    uri:MONGO_DB_CONNECTION+"/restaurant-menu",
     collection:'mySessions',
     expires:1000 * 60 * 60 * 24 * 7,
 })
@@ -29,7 +29,7 @@ store.on('error',function(error){
 app.use(express.static('public'));
 var whitelist = [
     'http://localhost:3000',
-    'http://192.168.1.11:3000',
+    'http://192.168.1.10:3000',
     'http://172.20.44.133:3000',
     'http://172.20.101.44:3000'
 ]
@@ -48,8 +48,8 @@ app.use(session({
     name:"SESSION_DB",
     secret: 'This is a secret',
     store: store,
-    saveUninitialized: true,
-    resave: true,
+    saveUninitialized: false,
+    resave: false,
     cookie: {
         sameSite:false,
         secure: process.env.NODE_ENV==="production",

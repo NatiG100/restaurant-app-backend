@@ -1,6 +1,7 @@
 const express = require('express');
 const { AddFoodCategory, DeleteAll, FetchAllFoodCategories, FetchFoodCategory, ChangeFoodCategoryStatus, UpdateFoodCategory } = require('../controllers/FoodCategoryControllers');
 const fileUpload = require('../utils/fileUpload');
+const requirePermission = require('../utils/requirePermission');
 const FoodCategoryRoute = express.Router();
 
 //test
@@ -13,12 +14,26 @@ FoodCategoryRoute.get('/',FetchAllFoodCategories);
 FoodCategoryRoute.get('/:foodCategoryId',FetchFoodCategory);
 
 //update food category
-FoodCategoryRoute.patch('/:foodCategoryId/update',fileUpload('img/foodCategory/').single('img'),UpdateFoodCategory);
+FoodCategoryRoute.patch(
+    '/:foodCategoryId/update',
+    requirePermission('Manage Items'),
+    fileUpload('img/foodCategory/').single('img'),
+    UpdateFoodCategory
+);
 
 //update status
-FoodCategoryRoute.patch('/:foodCategoryId/change-status',ChangeFoodCategoryStatus)
+FoodCategoryRoute.patch(
+    '/:foodCategoryId/change-status',
+    requirePermission('Manage Items'),
+    ChangeFoodCategoryStatus
+)
 
 //route for adding category
-FoodCategoryRoute.post('/',fileUpload('img/foodCategory/').single('img'),AddFoodCategory);
+FoodCategoryRoute.post(
+    '/',
+    requirePermission('Manage Items'),
+    fileUpload('img/foodCategory/').single('img'),
+    AddFoodCategory
+);
 
 module.exports = FoodCategoryRoute;
