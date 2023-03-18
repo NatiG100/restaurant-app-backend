@@ -8,7 +8,7 @@ function requirePermission(permission=""){
             if(req.session?.user.previlages.includes(permission)){
                 next();
             }else{
-                res.status(403).json({message:"you are UNAUTHORIZED to perform the requested task"});
+                res.status(403).json({message:"UNAUTHORIZED!"});
             }
         }
     }
