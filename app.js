@@ -17,6 +17,9 @@ const DrinkRoute = require('./routes/DrinkRoute');
 const TableRoute = require('./routes/TableRoute');
 const OrderRouter = require('./routes/OrderRoute');
 const ApplicationSettingRouter = require('./routes/ApplicationSettingRoute');
+const {createServer} = require('http');
+const {Server} = require("socket.io")
+
 
 var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION+"/restaurant-menu",
@@ -26,25 +29,28 @@ var store = new MongoDBStore({
 store.on('error',function(error){
     console.log(error);
 });
-app.use(express.static('public'));
 var whitelist = [
     'http://localhost:3000',
     'http://192.168.1.10:3000',
     'http://172.20.44.133:3000',
-    'http://172.20.101.44:3000'
+    'http://172.20.101.38:3000'
 ]
+const httpServer = createServer(app);
+const io = new Server(httpServer,{
+    cors:{
+        origin:['http://localhost:3000'],
+        credentials:true
+    }
+});
+app.io = io;
+
 app.use(cors({
     credentials:true,
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-          callback(null, true)
-        } else {
-          callback(new Error('Not allowed by CORS'))
-        }
-    }
+    origin: 'http://localhost:3000'
 }));
+app.use(express.static('public'));
 
-app.use(session({
+const sessionMiddleware = session({
     name:"SESSION_DB",
     secret: 'This is a secret',
     store: store,
@@ -56,10 +62,16 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
         httpOnly:true,
     },
-}));
-
+});
+app.use(sessionMiddleware);
 
 app.use(bodyParser.json());
+
+app.post('/api/test',(req,res,next)=>{
+    console.log("emit");
+    app.io.emit("event",{data:40,message:"this is an event"});
+    res.json({data:[],message:"success"});
+})
 
 app.use('/api/users',UserRouter);
 app.use('/api/food-categories',FoodCategoryRoute);
@@ -74,4 +86,4 @@ app.get('/',(req,res)=>{
     res.send("restaurant app api v1")
 })
 
-module.exports = app;
+module.exports = httpServer;
