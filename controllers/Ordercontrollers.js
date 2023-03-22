@@ -1,3 +1,4 @@
+const Notification = require("../models/Notification");
 const Order = require("../models/OrderModel");
 
 const DeleteAllOrders = async(req,res)=>{
@@ -24,6 +25,16 @@ const requestOrder = async(req,res)=>{
             items
         });
         await newOrder.save();
+
+        //create and emit notification
+        const notification = new Notification({
+            title:"New Order",
+            description: "A new order from a client has arrived"         
+        });
+        await notification.save();
+        
+        req.app.io.emit("notification",notification);
+
         res.status(200).json({
             message:"Successfull",
             data: newOrder.toClient(),

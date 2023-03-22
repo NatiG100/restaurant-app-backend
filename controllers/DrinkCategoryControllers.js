@@ -1,4 +1,5 @@
 const DrinkCategory = require('../models/DrinkCategoryModel');
+const Notification = require('../models/Notification');
 
 //test
 const DeleteAllDrinkCategory = async(req,res)=>{
@@ -24,11 +25,13 @@ const AddDrinkCategory = async (req,res)=>{
             newDrinkCategory.img = img;
         }
         await newDrinkCategory.save();
+        
         res.status(200).json({
             message:"A new drink category has been created",
             data:newDrinkCategory.toClient(),
         })
     }catch(error){
+        console.log(error);
         res.status(500).send({
             message:"Failed to add drink category"
         });

@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 
 app.post('/api/test',(req,res,next)=>{
     console.log("emit");
-    app.io.emit("event",{data:40,message:"this is an event"});
+    req.io.emit("event",{data:40,message:"this is an event"});
     res.json({data:[],message:"success"});
 })
 
