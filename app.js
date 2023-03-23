@@ -18,7 +18,8 @@ const TableRoute = require('./routes/TableRoute');
 const OrderRouter = require('./routes/OrderRoute');
 const ApplicationSettingRouter = require('./routes/ApplicationSettingRoute');
 const {createServer} = require('http');
-const {Server} = require("socket.io")
+const {Server} = require("socket.io");
+const NotificationRoute = require('./routes/NotificationRoute');
 
 
 var store = new MongoDBStore({
@@ -73,6 +74,7 @@ app.post('/api/test',(req,res,next)=>{
     res.json({data:[],message:"success"});
 })
 
+app.use('/api/notification',NotificationRoute);
 app.use('/api/users',UserRouter);
 app.use('/api/food-categories',FoodCategoryRoute);
 app.use('/api/foods',FoodRoute);
