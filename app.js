@@ -74,7 +74,7 @@ app.post('/api/test',(req,res,next)=>{
     res.json({data:[],message:"success"});
 })
 
-app.use('/api/notification',NotificationRoute);
+app.use('/api/notifications',NotificationRoute);
 app.use('/api/users',UserRouter);
 app.use('/api/food-categories',FoodCategoryRoute);
 app.use('/api/foods',FoodRoute);
