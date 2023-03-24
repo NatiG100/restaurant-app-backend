@@ -74,7 +74,7 @@ app.post('/api/test',(req,res,next)=>{
     req.io.emit("event",{data:40,message:"this is an event"});
     res.json({data:[],message:"success"});
 })
-app.use('/api/stat',StatRoute);
+app.use('/api/stats',StatRoute);
 app.use('/api/notifications',NotificationRoute);
 app.use('/api/users',UserRouter);
 app.use('/api/food-categories',FoodCategoryRoute);

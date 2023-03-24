@@ -1,4 +1,4 @@
-function parseDateFromString (date=""){
+function parseDate (date=""){
     const dateObj = new Date(date);
     const parsedDate = {};
     parsedDate.date = dateObj.getDate();
@@ -6,4 +6,7 @@ function parseDateFromString (date=""){
     parsedDate.month = dateObj.getMonth()+1;
     parsedDate.year = dateObj.getFullYear();
     return parsedDate;
+}
+module.exports = {
+    parseDate
 }
