@@ -24,7 +24,7 @@ const DeleteTable = async(req,res)=>{
             data:[]
         })
     }catch(error){
-        res.status(500).json({message:"Failed to delete table"})
+        res.status(500).json({message:"Failed to delete table"});
     }
 }
 const AddTable = async(req,res)=>{
