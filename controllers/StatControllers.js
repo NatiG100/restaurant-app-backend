@@ -61,8 +61,14 @@ const GetGeneralStat = async (req,res)=>{
         ]);
         const drinkInc = weeklyDrinkIncrease[0]?.total||0;
         const foodInc = weeklyFoodIncrease[0]?.total||0;
-        let weeklyDrinkDelta = parseFloat(((100*drinkInc/(drinkCount-drinkInc)).toFixed(2)));
-        let weeklyFoodDelta = parseFloat((100*foodInc/(foodCount-foodInc)).toFixed(2));
+        let weeklyDrinkDelta = '-'
+        if(drinkCount-drinkInc!==0){
+            weeklyDrinkDelta = parseFloat(((100*drinkInc/(drinkCount-drinkInc)).toFixed(2)));
+        }
+        let weeklyFoodDelta = "-";
+        if(foodCount-foodInc!==0){
+            weeklyFoodDelta = parseFloat((100*foodInc/(foodCount-foodInc)).toFixed(2));
+        }
         let result = {
             foodCount,
             drinkCount,
