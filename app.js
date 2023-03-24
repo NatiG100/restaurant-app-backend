@@ -39,7 +39,7 @@ var whitelist = [
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
-        origin:['http://localhost:3000'],
+        origin:'http://localhost:3000',
         credentials:true
     }
 });

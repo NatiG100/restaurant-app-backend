@@ -1,5 +1,14 @@
 const Notification = require("../models/Notification");
 
+//test
+const DeleteAllNotifications = async(req,res)=>{
+    try{
+        await Notification.deleteMany({});
+        res.json({message:"Successfull"});
+    }catch(error){
+        res.json({message:"Failed to delete"});
+    }
+}
 const fetchAllNotifications = async(req,res)=>{
     try{
         let allNotfication = await Notification.find().sort({_id:-1}).limit(30);
@@ -28,4 +37,5 @@ const seeAllNotifications = async(req,res)=>{
 module.exports = {
     fetchAllNotifications,
     seeAllNotifications,
+    DeleteAllNotifications,
 }
