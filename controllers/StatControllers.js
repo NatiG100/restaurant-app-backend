@@ -1,12 +1,14 @@
 const Drink = require("../models/DrinkModel");
 const Food = require("../models/FoodModel");
 const Order = require("../models/OrderModel");
-const { parseDate } = require("../utils/dateUtils");
+const { parseDate, getDatesInMonth, getPrevMonth, genFilter } = require("../utils/dateUtils");
 
 const GetGeneralStat = async (req,res)=>{
     const {month,date,day,year} = parseDate(Date.now());
     let dateFilter = date-day;
-    if(dateFilter<1) dateFilter+=30;
+    if(dateFilter<1) dateFilter+=getDatesInMonth(getPrevMonth(-1));
+    const filter = genFilter();
+    console.log(filter);
     try{
         const weeklySales = await Order.aggregate([
             {
@@ -29,7 +31,7 @@ const GetGeneralStat = async (req,res)=>{
             {
                 $match:
                 {
-                    "date":{$gte:new Date(year+"-"+month+"-"+dateFilter)},
+                    "date":{$gte:new Date(filter)},
                     "status":"Served",
                 },
             },
@@ -52,7 +54,7 @@ const GetGeneralStat = async (req,res)=>{
             {
                 $match:
                 {
-                    "created":{$gte:new Date(year+"-"+month+"-"+dateFilter)},
+                    "created":{$gte:new Date(filter)},
                 },
             },
             {
@@ -68,7 +70,7 @@ const GetGeneralStat = async (req,res)=>{
             {
                 $match:
                 {
-                    "created":{$gte:new Date(year+"-"+month+"-"+dateFilter)},
+                    "created":{$gte:new Date(filter)},
                 },
             },
             {
