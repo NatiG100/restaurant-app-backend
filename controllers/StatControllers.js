@@ -72,7 +72,7 @@ const GetGeneralStat = async (req,res)=>{
         let result = {
             foodCount,
             drinkCount,
-            weeklySales:weeklySales[0].total,
+            weeklySales:weeklySales[0]?.total||0,
             weeklyDrinkIncrease:weeklyDrinkDelta,
             weeklyFoodIncrease:weeklyFoodDelta,
         }
