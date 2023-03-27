@@ -25,6 +25,27 @@ const GetGeneralStat = async (req,res)=>{
                 }
             }
         ]);
+        const totalSales = await Order.aggregate([
+            {
+                $match:
+                {
+                    "date":{$gte:new Date(year+"-"+month+"-"+dateFilter)},
+                    "status":"Served",
+                },
+            },
+            {
+                $group:{
+                    _id:null,
+                    total:{
+                        $sum:"$totalCost"
+                    }
+                }
+            }
+        ]);
+        let salesDelta = '-';
+        if(totalSales-weeklySales!==0){
+            salesDelta = parseFloat((100*weeklySales/(totalSales-weeklySales)).toFixed(2));
+        }
         const foodCount  = await Food.estimatedDocumentCount();
         const drinkCount  = await Drink.estimatedDocumentCount();
         const weeklyFoodIncrease = await Food.aggregate([
@@ -72,6 +93,7 @@ const GetGeneralStat = async (req,res)=>{
         let result = {
             foodCount,
             drinkCount,
+            salesDelta,
             weeklySales:weeklySales[0]?.total||0,
             weeklyDrinkIncrease:weeklyDrinkDelta,
             weeklyFoodIncrease:weeklyFoodDelta,
