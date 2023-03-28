@@ -1,7 +1,8 @@
 const express = require('express');
-const { GetGeneralStat } = require('../controllers/StatControllers');
+const { GetGeneralStat, getTopItems } = require('../controllers/StatControllers');
 const StatRoute = express.Router();
 
 StatRoute.get('/general',GetGeneralStat);
+StatRoute.get('/top-items',getTopItems);
 
 module.exports = StatRoute;

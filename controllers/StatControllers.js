@@ -1,20 +1,16 @@
 const Drink = require("../models/DrinkModel");
 const Food = require("../models/FoodModel");
 const Order = require("../models/OrderModel");
-const { parseDate, getDatesInMonth, getPrevMonth, genFilter } = require("../utils/dateUtils");
+const {genFilter } = require("../utils/dateUtils");
 
-const GetGeneralStat = async (req,res)=>{
-    const {month,date,day,year} = parseDate(Date.now());
-    let dateFilter = date-day;
-    if(dateFilter<1) dateFilter+=getDatesInMonth(getPrevMonth(-1));
+const GetGeneralStat = async (req,res)=>{    
     const filter = genFilter("weekly");
-    console.log(filter);
     try{
         const weeklySales = await Order.aggregate([
             {
                 $match:
                 {
-                    "date":{$gte:new Date(year+"-"+month+"-"+dateFilter)},
+                    "date":{$gte:new Date(filter)},
                     "status":"Served",
                 },
             },
@@ -107,9 +103,83 @@ const GetGeneralStat = async (req,res)=>{
     }
 }
 
-const getTopItems = async ()=>{
+const getTopItems = async (req,res)=>{
+    const filter = genFilter("weekly");
+    const howMany = parseInt(req.query.howMany);
     try{
-        
+        const topFoods = await Order.aggregate([
+            {
+                $unwind:"$items"
+            },
+            {
+                $match:
+                {
+                    "items.itemType":"food",
+                },
+            },
+            {
+                $group:{
+                    _id:"$items.itemId",
+                    total:{
+                        $sum:{$multiply:["$items.cost","$items.amount"]}
+                    },
+                    name:{
+                        $first:"$items.name"
+                    },
+                    amount:{
+                        $sum:"$items.amount"
+                    },
+                    img:{
+                        $first:"$items.img"
+                    }
+                }
+            },
+            {
+                $sort:{
+                    total:-1
+                }
+            },
+            {
+                $limit:howMany||3
+            }
+        ]);
+        const topDrinks = await Order.aggregate([
+            {
+                $unwind:"$items"
+            },
+            {
+                $match:
+                {
+                    "items.itemType":"drink",
+                },
+            },
+            {
+                $group:{
+                    _id:"$items.itemId",
+                    total:{
+                        $sum:{$multiply:["$items.cost","$items.amount"]}
+                    },
+                    name:{
+                        $first:"$items.name"
+                    },
+                    amount:{
+                        $sum:"$items.amount"
+                    },
+                    img:{
+                        $first:"$items.img"
+                    }
+                }
+            },
+            {
+                $sort:{
+                    total:-1
+                }
+            },
+            {
+                $limit:howMany||3
+            }
+        ]);
+        res.status(200).json({data:{topFoods,topDrinks}})
     }catch(error){
         console.log(error);
         res.status(500).json({message:"Failed to fetch top items"})
@@ -117,5 +187,6 @@ const getTopItems = async ()=>{
 }
 
 module.exports = {
-    GetGeneralStat
+    GetGeneralStat,
+    getTopItems,
 }
