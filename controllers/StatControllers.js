@@ -7,7 +7,7 @@ const GetGeneralStat = async (req,res)=>{
     const {month,date,day,year} = parseDate(Date.now());
     let dateFilter = date-day;
     if(dateFilter<1) dateFilter+=getDatesInMonth(getPrevMonth(-1));
-    const filter = genFilter();
+    const filter = genFilter("weekly");
     console.log(filter);
     try{
         const weeklySales = await Order.aggregate([
@@ -104,6 +104,15 @@ const GetGeneralStat = async (req,res)=>{
     }catch(error){
         console.log(error);
         res.status(500).json({message:"Failed to fetch general stat"});
+    }
+}
+
+const getTopItems = async ()=>{
+    try{
+        
+    }catch(error){
+        console.log(error);
+        res.status(500).json({message:"Failed to fetch top items"})
     }
 }
 
