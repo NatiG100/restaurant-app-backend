@@ -115,6 +115,7 @@ const getTopItems = async (req,res)=>{
                 $match:
                 {
                     "items.itemType":"food",
+                    "status":"Served",
                 },
             },
             {
@@ -151,6 +152,7 @@ const getTopItems = async (req,res)=>{
                 $match:
                 {
                     "items.itemType":"drink",
+                    "status":"Served",
                 },
             },
             {
