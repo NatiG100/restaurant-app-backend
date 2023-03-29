@@ -44,9 +44,39 @@ function getPrevMonth(currentMonth=2){
         return currentMonth-1;
     }
 }
+
+//returns a year format based on chart type;
+function getDateFormat(type="all"){
+    if(type==="all"){
+        return "%Y";
+    }else if(type==="weekly"||type==="monthly"){
+        return "%d"
+    }else{
+        return "%m"
+    }
+}
+
+//returns date match filter based on chart type
+function getMatchFilter(type="all"){
+    const {month,date,day,year} = parseDate(Date.now());
+    let weekStarted = new Date();
+    weekStarted.setDate(weekStarted.getDate()-day);
+    const {month:wMonth,date:wDate,year:wYear} = parseDate(weekStarted);
+    if(type==="all"){
+        return "0001-01-01";
+    }else if(type==="weekly"){
+        return ""+wYear+"-"+wMonth+"-"+wDate;
+    }else if(type==="monthly"){
+        return ""+year+"-"+month+"-00";
+    }else{
+        return ""+year+"-0-00";
+    }
+}
 module.exports = {
     getDatesInMonth,
     parseDate,
     getPrevMonth,
     genFilter,
+    getDateFormat,
+    getMatchFilter,
 };
