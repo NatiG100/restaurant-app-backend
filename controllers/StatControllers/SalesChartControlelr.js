@@ -1,5 +1,5 @@
 const Order = require("../../models/OrderModel");
-const { getDateFormat, getMatchFilter, getDaysInThisMonth } = require("../../utils/dateUtils");
+const { getDateFormat, getMatchFilter, getDaysInThisMonth, getDateOfWeek } = require("../../utils/dateUtils");
 
 const types = ["weekly","monthly","yearly","all"];
 const FetchSalesChartData = async(req,res)=>{
@@ -13,6 +13,7 @@ const FetchSalesChartData = async(req,res)=>{
                 $match:
                 {
                     "date":{$gte:new Date(matchFilter)},
+                    "status":"Served",
                 },
             },
             {
@@ -46,6 +47,14 @@ const FetchSalesChartData = async(req,res)=>{
             for(let i=1;i<13;i++){
                 if(existingData.indexOf(i)===-1){
                     let _id = i<10?"0"+i:i.toString();
+                    data.push({_id,total:0});
+                }
+            }
+        }if(type==="weekly"){
+            const datesOfWeek = getDateOfWeek();
+            for(let i=1;i<8;i++){
+                if(existingData.indexOf(datesOfWeek[i])===-1){
+                    let _id = datesOfWeek[i]<10?"0"+datesOfWeek[i]:datesOfWeek[i].toString();
                     data.push({_id,total:0});
                 }
             }

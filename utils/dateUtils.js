@@ -75,6 +75,31 @@ function getMatchFilter(type="all"){
     }else{
         return ""+year+"-0-00";
     }
+};
+
+//returns date number starting from monday to friday
+const getDateOfWeek = ()=>{
+    const dates = [""]
+    const {month,date,day} = parseDate(Date.now());
+    let monday = date-day+1;
+    if(monday<1){
+        monday+=getDatesInMonth(getPrevMonth(month));
+    }
+    for(let i=0; i<7;i++){
+        let date = monday+i;
+        if(date-day+1<1){
+            if(i>getDatesInMonth(getPrevMonth(month))){
+                date -= getDatesInMonth(getPrevMonth(month));
+            }
+        }else{
+            if(i>getDatesInMonth(month)){
+                date -= getDatesInMonth(month);
+            }
+        }
+
+        dates.push(date);
+    }
+    return dates;
 }
 module.exports = {
     getDatesInMonth,
@@ -84,4 +109,5 @@ module.exports = {
     genFilter,
     getDateFormat,
     getMatchFilter,
+    getDateOfWeek,
 };
