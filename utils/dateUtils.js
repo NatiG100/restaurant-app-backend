@@ -1,6 +1,10 @@
-const DATES_IN_MONTH = [0,30,30,30,30,30,30,30,30,30,30,30,30];
+const DATES_IN_MONTH = [0,31,28,31,30,31,30,31,31,30,31,30,31];
 function getDatesInMonth (month=1){
     return DATES_IN_MONTH[month];
+}
+function getDaysInThisMonth(){
+    const {month}=parseDate(new Date())
+    return getDatesInMonth(month);
 }
 
 function parseDate (date=""){
@@ -74,6 +78,7 @@ function getMatchFilter(type="all"){
 }
 module.exports = {
     getDatesInMonth,
+    getDaysInThisMonth,
     parseDate,
     getPrevMonth,
     genFilter,

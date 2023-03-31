@@ -1,5 +1,5 @@
 const Order = require("../../models/OrderModel");
-const { getDateFormat, getMatchFilter } = require("../../utils/dateUtils");
+const { getDateFormat, getMatchFilter, getDaysInThisMonth } = require("../../utils/dateUtils");
 
 const types = ["weekly","monthly","yearly","all"];
 const FetchSalesChartData = async(req,res)=>{
@@ -8,7 +8,7 @@ const FetchSalesChartData = async(req,res)=>{
         const matchFilter = getMatchFilter(type);
         if(types.indexOf(type)===-1) type=types[3];
         const dateFormat = getDateFormat(type);
-        const data = await Order.aggregate([
+        let data = await Order.aggregate([
             {
                 $match:
                 {
@@ -25,10 +25,37 @@ const FetchSalesChartData = async(req,res)=>{
                         $sum:{$multiply:["$items.cost","$items.amount"]}
                     },
                 }
+            },
+            {
+                $sort:{
+                    _id:1
+                }
             }
         ]);
+        const existingData = data.map((data)=>(parseFloat(data._id)));
+
+        //convert the aggregated data to the desired shape
+        if(type==="monthly"){
+            for(let i=1;i<getDaysInThisMonth()+1;i++){
+                if(existingData.indexOf(i)===-1){
+                    let _id = i<10?"0"+i:i.toString();
+                    data.push({_id,total:0});
+                }
+            }
+        }if(type==="yearly"){
+            for(let i=1;i<13;i++){
+                if(existingData.indexOf(i)===-1){
+                    let _id = i<10?"0"+i:i.toString();
+                    data.push({_id,total:0});
+                }
+            }
+        }
+
+        //sort the data
+        data.sort((a,b)=>(parseInt(a._id)-parseInt(b._id)));
         res.status(200).json({data});
     }catch(error){
+        console.log(error)
         res.status(500).json({
             message:"Failed to fetch sales chart data"
         });
