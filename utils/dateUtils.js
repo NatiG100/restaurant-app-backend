@@ -80,23 +80,21 @@ function getMatchFilter(type="all"){
 //returns date number starting from monday to friday
 const getDateOfWeek = ()=>{
     const dates = [""]
-    const {month,date,day} = parseDate(Date.now());
-    let monday = date-day+1;
+    const {month,date:dateOfToday,day} = parseDate(Date.now());
+    let monday = dateOfToday-day;
     if(monday<1){
         monday+=getDatesInMonth(getPrevMonth(month));
     }
     for(let i=0; i<7;i++){
         let date = monday+i;
-        if(date-day+1<1){
-            if(i>getDatesInMonth(getPrevMonth(month))){
+        if(dateOfToday-day<1){
+            if(date>getDatesInMonth(getPrevMonth(month))){
                 date -= getDatesInMonth(getPrevMonth(month));
             }
-        }else{
-            if(i>getDatesInMonth(month)){
-                date -= getDatesInMonth(month);
-            }
         }
-
+        else if(date>getDatesInMonth(month)){
+            date -= getDatesInMonth(month);
+        }
         dates.push(date);
     }
     return dates;

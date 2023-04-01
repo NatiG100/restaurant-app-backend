@@ -1,6 +1,7 @@
 const { types } = require("../../constants/constants");
 const Order = require("../../models/OrderModel");
 const { getMatchFilter, getDateFormat } = require("../../utils/dateUtils");
+const { reshapeChartData } = require("../../utils/utils");
 
 const FetchOrdersChartData = async (req,res)=>{
     try{
@@ -46,7 +47,9 @@ const FetchOrdersChartData = async (req,res)=>{
             }
         ]);
 
-        
+        data.forEach((d)=>{
+            reshapeChartData(d.data,type);
+        })
 
         res.status(200).json({
             data
