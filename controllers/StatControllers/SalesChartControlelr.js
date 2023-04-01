@@ -1,12 +1,11 @@
 const Order = require("../../models/OrderModel");
 const { getDateFormat, getMatchFilter, getDaysInThisMonth, getDateOfWeek } = require("../../utils/dateUtils");
-
-const types = ["weekly","monthly","yearly","all"];
+const {types} = require("../../constants/constants")
 const FetchSalesChartData = async(req,res)=>{
     try{
         let type = req.query.type;
-        const matchFilter = getMatchFilter(type);
         if(types.indexOf(type)===-1) type=types[3];
+        const matchFilter = getMatchFilter(type);
         const dateFormat = getDateFormat(type);
         let data = await Order.aggregate([
             {
@@ -64,7 +63,6 @@ const FetchSalesChartData = async(req,res)=>{
         data.sort((a,b)=>(parseInt(a._id)-parseInt(b._id)));
         res.status(200).json({data});
     }catch(error){
-        console.log(error)
         res.status(500).json({
             message:"Failed to fetch sales chart data"
         });

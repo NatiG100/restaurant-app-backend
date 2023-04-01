@@ -71,9 +71,9 @@ function getMatchFilter(type="all"){
     }else if(type==="weekly"){
         return ""+wYear+"-"+wMonth+"-"+wDate;
     }else if(type==="monthly"){
-        return ""+year+"-"+month+"-00";
+        return ""+year+"-"+month+"-01";
     }else{
-        return ""+year+"-0-00";
+        return ""+year+"-1-01";
     }
 };
 

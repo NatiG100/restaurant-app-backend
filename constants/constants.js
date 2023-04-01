@@ -1,0 +1,1 @@
+module.exports.types = ["weekly","monthly","yearly","all"];
