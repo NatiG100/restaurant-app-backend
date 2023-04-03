@@ -81,7 +81,7 @@ function getMatchFilter(type="all"){
 const getDateOfWeek = ()=>{
     const dates = [""]
     const {month,date:dateOfToday,day} = parseDate(Date.now());
-    let monday = dateOfToday-day;
+    let monday = dateOfToday-day+1;
     if(monday<1){
         monday+=getDatesInMonth(getPrevMonth(month));
     }
