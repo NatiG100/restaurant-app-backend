@@ -6,6 +6,9 @@ const { reshapeChartData } = require("../../utils/utils");
 const FetchOrdersChartData = async (req,res)=>{
     try{
         let type = req.query.type;
+        let itemType = req.query.itemType;
+        const match={}
+        if(itemType==="food"||itemType==="drink") match["items.itemType"]=itemType;
         if(types.indexOf(type)===-1) type = types[3];
         const matchFilter = getMatchFilter(type);
         const dateFormat = getDateFormat(type);
@@ -16,6 +19,7 @@ const FetchOrdersChartData = async (req,res)=>{
             {
                 $match:{
                     "date":{$gte:new Date(matchFilter)},
+                    ...match
                 },
             },
             {
