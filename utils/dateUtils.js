@@ -99,6 +99,16 @@ const getDateOfWeek = ()=>{
     }
     return dates;
 }
+function addDay(date=new Date(),days=1){
+    date.setDate(date.getDate()+days);
+    return date;
+}
+function formatDate(d=new Date()){
+    let {date,month,year} = parseDate(d);
+    if(date<10) date="0"+date;
+    if(month<10) month="0"+month;
+    return ""+year+"-"+month+"-"+date;
+}
 module.exports = {
     getDatesInMonth,
     getDaysInThisMonth,
@@ -108,4 +118,6 @@ module.exports = {
     getDateFormat,
     getMatchFilter,
     getDateOfWeek,
+    addDay,
+    formatDate
 };
