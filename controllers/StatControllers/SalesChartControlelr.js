@@ -4,19 +4,23 @@ const {types} = require("../../constants/constants")
 const FetchSalesChartData = async(req,res)=>{
     try{
         let type = req.query.type;
+        let itemType = req.query.itemType;
+        const match={}
+        if(itemType==="food"||itemType==="drink") match["items.itemType"]=itemType;
         if(types.indexOf(type)===-1) type=types[3];
         const matchFilter = getMatchFilter(type);
         const dateFormat = getDateFormat(type);
         let data = await Order.aggregate([
             {
+                $unwind:"$items"
+            },
+            {
                 $match:
                 {
                     "date":{$gte:new Date(matchFilter)},
                     "status":"Served",
+                    ...match,
                 },
-            },
-            {
-                $unwind:"$items"
             },
             {
                 $group:{
