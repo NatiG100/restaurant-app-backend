@@ -14,8 +14,8 @@ const GenerateStat = async(req,res)=>{
         from = yesterday;
         to = today;
     }
-
-    console.log(from)
+    const days = Math.ceil( ((to.getTime()- from.getTime())/(1000*3600*24)));
+    console.log(days);
     try{
         let data = await Order.aggregate([
             {
@@ -31,8 +31,11 @@ const GenerateStat = async(req,res)=>{
             {
                 $group:{
                     _id:"$items.itemType",
-                    total:{
+                    totalOrder:{
                         $sum:"$items.amount"
+                    },
+                    totalCost:{
+                        $sum:{$multiply:["$items.amount","$items.cost"]}
                     }
                 }
             },
@@ -41,7 +44,13 @@ const GenerateStat = async(req,res)=>{
                     _id:1
                 }
             }
-        ])
+        ]);
+        const d = {
+            order:{
+                drink:data[0]?.totalOrder||0,
+                food:data[1]?.totalOrder||0
+            }
+        }
         res.status(200).json({data});
     }catch(error){
         console.log(error);
