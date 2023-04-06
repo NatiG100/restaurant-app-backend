@@ -48,10 +48,22 @@ const GenerateStat = async(req,res)=>{
         const d = {
             order:{
                 drink:data[0]?.totalOrder||0,
-                food:data[1]?.totalOrder||0
+                avgDrink:(data[0]?.totalOrder||0)/days,
+                food:data[1]?.totalOrder||0,
+                avgFood:(data[1]?.totalOrder||0)/days,
+                total:(data[0]?.totalOrder||0)+(data[1]?.totalOrder||0),
+                avgTotal:((data[0]?.totalOrder||0)+(data[1]?.totalOrder||0))/days
+            },
+            sales:{
+                drink:data[0]?.totalCost||0,
+                avgDrink:(data[0]?.totalCost||0)/days,
+                food:data[1]?.totalCost||0,
+                avgFood:(data[1]?.totalCost||0)/days,
+                total:(data[0]?.totalCost||0)+(data[1]?.totalCost)||0,
+                avgTotal:((data[0]?.totalCost||0)+(data[1]?.totalCost||0))/days
             }
         }
-        res.status(200).json({data});
+        res.status(200).json({data:d});
     }catch(error){
         console.log(error);
         res.status(500).json({message:"Failed to generate stat"})
