@@ -1,19 +1,26 @@
 const Order = require("../../models/OrderModel");
+const { parseDate } = require("../../utils/dateUtils");
 
 const GenerateStat = async(req,res)=>{
     const today = new Date(Date.now());
     const yesterday = new Date(Date.now());
-    yesterday.setMilliseconds(0);
-    yesterday.setSeconds(0);
-    yesterday.setMinutes(0);
-    yesterday.setHours(0);
     yesterday.setDate(yesterday.getDate()-1);
+    
+    
     let from  = new Date(req.query.from);
     let to = new Date(req.query.to)
     if(isNaN(from.getTime()) || isNaN(to.getTime())){
         from = yesterday;
         to = today;
     }
+    from.setMilliseconds(0);
+    from.setSeconds(0);
+    from.setMinutes(0);
+    from.setHours(0);
+    to.setMilliseconds(999);
+    to.setSeconds(59);
+    to.setMinutes(59);
+    to.setHours(23);
     const days = Math.ceil( ((to.getTime()- from.getTime())/(1000*3600*24)));
     try{
         let data = await Order.aggregate([
