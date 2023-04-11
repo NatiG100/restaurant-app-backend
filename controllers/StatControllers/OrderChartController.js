@@ -54,7 +54,7 @@ const FetchOrdersChartData = async (req,res)=>{
         data.forEach((d)=>{
             reshapeChartData(d.data,type);
         })
-
+        console.dir(data,{depth:6});
         res.status(200).json({
             data
         })

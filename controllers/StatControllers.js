@@ -44,7 +44,6 @@ const GetGeneralStat = async (req,res)=>{
         if(totalSales-weeklySales!==0){
             salesDelta = parseFloat(((100*weeklySales[0].total||0)/((totalSales[0].total||-1)-(weeklySales[0].total||0))).toFixed(2));
         }
-        console.log(weeklySales);
         const foodCount  = await Food.estimatedDocumentCount();
         const drinkCount  = await Drink.estimatedDocumentCount();
         const weeklyFoodIncrease = await Food.aggregate([
