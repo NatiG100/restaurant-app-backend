@@ -1,5 +1,5 @@
 require('dotenv').config()
-const {PORT,MONGO_DB_CONNECTION} = process.env;
+const {PORT,MONGO_DB_CONNECTION,SECRETE} = process.env;
 
 const express = require('express');
 const UserRouter = require('./routes/UserRoute');
@@ -51,10 +51,10 @@ app.use(express.static('public'));
 
 const sessionMiddleware = session({
     name:"SESSION_DB",
-    secret: 'This is a secret',
+    secret: SECRETE,
     store: store,
     saveUninitialized: false,
-    resave: false,
+    resave: true,
     cookie: {
         sameSite:false,
         secure: process.env.NODE_ENV==="production",
