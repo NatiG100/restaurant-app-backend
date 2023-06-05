@@ -37,7 +37,7 @@ var whitelist = [
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
-        origin:'http://localhost:3000',
+        origin:'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app',
         credentials:true
     }
 });
@@ -45,7 +45,7 @@ app.io = io;
 
 app.use(cors({
     credentials:true,
-    origin: 'http://localhost:3000'
+    origin: 'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app/'
 }));
 app.use(express.static('public'));
 
