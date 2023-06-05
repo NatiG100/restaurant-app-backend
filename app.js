@@ -32,10 +32,7 @@ store.on('error',function(error){
     console.log(error);
 });
 var whitelist = [
-    'http://localhost:3000',
-    'http://192.168.1.10:3000',
-    'http://172.20.44.133:3000',
-    'http://172.20.101.38:3000'
+    'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app'
 ]
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
