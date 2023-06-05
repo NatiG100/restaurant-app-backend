@@ -1,6 +1,10 @@
-const DATES_IN_MONTH = [0,30,30,30,30,30,30,30,30,30,30,30,30];
+const DATES_IN_MONTH = [0,31,28,31,30,31,30,31,31,30,31,30,31];
 function getDatesInMonth (month=1){
     return DATES_IN_MONTH[month];
+}
+function getDaysInThisMonth(){
+    const {month}=parseDate(new Date())
+    return getDatesInMonth(month);
 }
 
 function parseDate (date=""){
@@ -44,9 +48,76 @@ function getPrevMonth(currentMonth=2){
         return currentMonth-1;
     }
 }
+
+//returns a year format based on chart type;
+function getDateFormat(type="all"){
+    if(type==="all"){
+        return "%Y";
+    }else if(type==="weekly"||type==="monthly"){
+        return "%d"
+    }else{
+        return "%m"
+    }
+}
+
+//returns date match filter based on chart type
+function getMatchFilter(type="all"){
+    const {month,date,day,year} = parseDate(Date.now());
+    let weekStarted = new Date();
+    weekStarted.setDate(weekStarted.getDate()-day);
+    const {month:wMonth,date:wDate,year:wYear} = parseDate(weekStarted);
+    if(type==="all"){
+        return "0001-01-01";
+    }else if(type==="weekly"){
+        return ""+wYear+"-"+wMonth+"-"+wDate;
+    }else if(type==="monthly"){
+        return ""+year+"-"+month+"-01";
+    }else{
+        return ""+year+"-1-01";
+    }
+};
+
+//returns date number starting from monday to friday
+const getDateOfWeek = ()=>{
+    const dates = [""]
+    const {month,date:dateOfToday,day} = parseDate(Date.now());
+    let monday = dateOfToday-day+1;
+    if(monday<1){
+        monday+=getDatesInMonth(getPrevMonth(month));
+    }
+    for(let i=0; i<7;i++){
+        let date = monday+i;
+        if(dateOfToday-day<1){
+            if(date>getDatesInMonth(getPrevMonth(month))){
+                date -= getDatesInMonth(getPrevMonth(month));
+            }
+        }
+        else if(date>getDatesInMonth(month)){
+            date -= getDatesInMonth(month);
+        }
+        dates.push(date);
+    }
+    return dates;
+}
+function addDay(date=new Date(),days=1){
+    date.setDate(date.getDate()+days);
+    return date;
+}
+function formatDate(d=new Date()){
+    let {date,month,year} = parseDate(d);
+    if(date<10) date="0"+date;
+    if(month<10) month="0"+month;
+    return ""+year+"-"+month+"-"+date;
+}
 module.exports = {
     getDatesInMonth,
+    getDaysInThisMonth,
     parseDate,
     getPrevMonth,
     genFilter,
+    getDateFormat,
+    getMatchFilter,
+    getDateOfWeek,
+    addDay,
+    formatDate
 };

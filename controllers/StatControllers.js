@@ -27,7 +27,7 @@ const GetGeneralStat = async (req,res)=>{
             {
                 $match:
                 {
-                    "date":{$gte:new Date(filter)},
+                    "date":{$lte:new Date(filter)},
                     "status":"Served",
                 },
             },
@@ -42,7 +42,7 @@ const GetGeneralStat = async (req,res)=>{
         ]);
         let salesDelta = '-';
         if(totalSales-weeklySales!==0){
-            salesDelta = parseFloat((100*weeklySales/(totalSales-weeklySales)).toFixed(2));
+            salesDelta = parseFloat(((100*weeklySales[0].total||0)/((totalSales[0].total||-1)-(weeklySales[0].total||0))).toFixed(2));
         }
         const foodCount  = await Food.estimatedDocumentCount();
         const drinkCount  = await Drink.estimatedDocumentCount();

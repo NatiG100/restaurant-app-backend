@@ -49,7 +49,7 @@ const requestOrder = async(req,res)=>{
 
 const FetchAllOrders = async(req,res)=>{
     try{
-        let allOrders = await Order.find();
+        let allOrders = await Order.find().sort({_id:-1});
         res.status(200).json({
             data:allOrders.map((order)=>(order.toClient()))
         })
