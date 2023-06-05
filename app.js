@@ -54,7 +54,7 @@ const sessionMiddleware = session({
     secret: SECRETE,
     store: store,
     saveUninitialized: false,
-    resave: true,
+    resave: false,
     cookie: {
         sameSite:false,
         secure: process.env.NODE_ENV==="production",
