@@ -45,7 +45,7 @@ app.io = io;
 
 app.use(cors({
     credentials:true,
-    origin: 'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app/'
+    origin: 'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app'
 }));
 app.use(express.static('public'));
 
