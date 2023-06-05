@@ -32,12 +32,12 @@ store.on('error',function(error){
     console.log(error);
 });
 var whitelist = [
-    'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app'
+    'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
 ]
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
-        origin:'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app',
+        origin:'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app',
         credentials:true
     }
 });
@@ -45,7 +45,7 @@ app.io = io;
 
 app.use(cors({
     credentials:true,
-    origin: 'https://restaurant-app-o44a-o82feifjb-natig100.vercel.app'
+    origin: 'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
 }));
 app.use(express.static('public'));
 
