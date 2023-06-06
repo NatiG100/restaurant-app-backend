@@ -22,12 +22,6 @@ const {Server} = require("socket.io");
 const NotificationRoute = require('./routes/NotificationRoute');
 const StatRoute = require('./routes/StatRoute');
 
-
-var store = new MongoDBStore({
-    uri:MONGO_DB_CONNECTION,
-    collection:'mySessions',
-    expires:1000 * 60 * 60 * 24 * 7,
-})
 store.on('error',function(error){
     console.log(error);
 });
@@ -48,7 +42,12 @@ app.use(cors({
     origin: 'https://restaurant-a2r5zm9ef-natig100.vercel.app'
 }));
 app.use(express.static('public'));
-const sessionMiddleware = session({
+var store = new MongoDBStore({
+    uri:MONGO_DB_CONNECTION,
+    collection:'mySessions',
+    expires:1000 * 60 * 60 * 24 * 7,
+});
+app.use(session({
     name:"SESSION_DB",
     secret: SECRETE,
     store: store,
@@ -59,10 +58,9 @@ const sessionMiddleware = session({
         secure: process.env.NODE_ENV==="production",
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
         httpOnly:true,
-
+        
     },
-});
-app.use(sessionMiddleware);
+}));
 
 app.use(bodyParser.json());
 
