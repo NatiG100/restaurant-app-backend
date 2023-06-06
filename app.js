@@ -31,9 +31,9 @@ var store = new MongoDBStore({
 store.on('error',function(error){
     console.log(error);
 });
-var whitelist = [
-    'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
-]
+// var whitelist = [
+//     'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
+// ]
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
@@ -53,7 +53,7 @@ const sessionMiddleware = session({
     name:"SESSION_DB",
     secret: SECRETE,
     store: store,
-    saveUninitialized: false,
+    saveUninitialized: true,
     resave: false,
     cookie: {
         sameSite:false,
