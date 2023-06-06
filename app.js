@@ -22,9 +22,7 @@ const {Server} = require("socket.io");
 const NotificationRoute = require('./routes/NotificationRoute');
 const StatRoute = require('./routes/StatRoute');
 
-store.on('error',function(error){
-    console.log(error);
-});
+
 // var whitelist = [
 //     'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
 // ]
@@ -46,6 +44,9 @@ var store = new MongoDBStore({
     uri:MONGO_DB_CONNECTION,
     collection:'mySessions',
     expires:1000 * 60 * 60 * 24 * 7,
+});
+store.on('error',function(error){
+    console.log(error);
 });
 app.use(session({
     name:"SESSION_DB",
