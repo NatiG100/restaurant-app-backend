@@ -1,5 +1,5 @@
 require('dotenv').config()
-const {PORT,MONGO_DB_CONNECTION} = process.env;
+const {PORT,MONGO_DB_CONNECTION,SECRETE} = process.env;
 
 const express = require('express');
 const UserRouter = require('./routes/UserRoute');
@@ -24,7 +24,7 @@ const StatRoute = require('./routes/StatRoute');
 
 
 var store = new MongoDBStore({
-    uri:MONGO_DB_CONNECTION+"/restaurant-menu",
+    uri:MONGO_DB_CONNECTION,
     collection:'mySessions',
     expires:1000 * 60 * 60 * 24 * 7,
 })
@@ -32,15 +32,12 @@ store.on('error',function(error){
     console.log(error);
 });
 var whitelist = [
-    'http://localhost:3000',
-    'http://192.168.1.10:3000',
-    'http://172.20.44.133:3000',
-    'http://172.20.101.38:3000'
+    'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
 ]
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
-        origin:'http://localhost:3000',
+        origin:'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app',
         credentials:true
     }
 });
@@ -48,13 +45,13 @@ app.io = io;
 
 app.use(cors({
     credentials:true,
-    origin: 'http://localhost:3000'
+    origin: 'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
 }));
 app.use(express.static('public'));
 
 const sessionMiddleware = session({
     name:"SESSION_DB",
-    secret: 'This is a secret',
+    secret: SECRETE,
     store: store,
     saveUninitialized: false,
     resave: false,
