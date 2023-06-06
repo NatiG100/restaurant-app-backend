@@ -32,9 +32,9 @@ const FetchAllSales = async(req,res)=>{
                 }
             }
         ]);
-        const existingData = data.map((data)=>(data._id));
-        let maxDate = data[data.length-1]._id;
-        let currentDate = data[0]._id;
+        const existingData = data.map((data)=>(data?._id));
+        let maxDate = data[data.length-1]?._id;
+        let currentDate = data[0]?._id;
         while(maxDate!==currentDate){
             currentDate= formatDate(addDay(new Date(currentDate),1));
             if(existingData.indexOf(currentDate)===-1){
@@ -44,7 +44,7 @@ const FetchAllSales = async(req,res)=>{
                 })
             }
         }
-        data.sort((a,b)=>(new Date(a._id)-new Date(b._id)));
+        data.sort((a,b)=>(new Date(a?._id)-new Date(b?._id)));
         res.status(200).json({data});
     }catch(error){
         console.log(error)
