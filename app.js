@@ -37,7 +37,7 @@ store.on('error',function(error){
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
-        origin:'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app',
+        origin:'https://restaurant-app-qtq2-6outw7qyp-natig100.vercel.app',
         credentials:true
     }
 });
@@ -45,10 +45,9 @@ app.io = io;
 
 app.use(cors({
     credentials:true,
-    origin: 'https://restaurant-app-qtq2-q4b4zj0xy-natig100.vercel.app'
+    origin: 'https://restaurant-app-qtq2-6outw7qyp-natig100.vercel.app'
 }));
 app.use(express.static('public'));
-
 const sessionMiddleware = session({
     name:"SESSION_DB",
     secret: SECRETE,
