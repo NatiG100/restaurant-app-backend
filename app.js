@@ -52,7 +52,7 @@ const sessionMiddleware = session({
     name:"SESSION_DB",
     secret: SECRETE,
     store: store,
-    saveUninitialized: true,
+    saveUninitialized: false,
     resave: false,
     cookie: {
         sameSite:false,
