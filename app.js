@@ -29,7 +29,7 @@ const StatRoute = require('./routes/StatRoute');
 const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors:{
-        origin:'https://restaurant-a2r5zm9ef-natig100.vercel.app',
+        origin:'https://restaurant-c9640hulp-natig100.vercel.app',
         credentials:true
     }
 });
@@ -37,7 +37,7 @@ app.io = io;
 
 app.use(cors({
     credentials:true,
-    origin: 'https://restaurant-a2r5zm9ef-natig100.vercel.app'
+    origin: 'https://restaurant-c9640hulp-natig100.vercel.app'
 }));
 app.use(express.static('public'));
 var store = new MongoDBStore({
