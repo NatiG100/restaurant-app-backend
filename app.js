@@ -56,7 +56,7 @@ app.use(session({
     resave: false,
     cookie: {
         sameSite:false,
-        secure: process.env.NODE_ENV==="production",
+        secure: false,
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
         httpOnly:true,
         
